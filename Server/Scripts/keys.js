@@ -27,12 +27,12 @@ function Keys() {
 		
 		e.preventDefault();
 	};
-	
-	var isPressed = function(key) {
-		var keyIndex = pressedKeys.indexOf(key);
-		
-		return (keyIndex >= 0);
-	}
+
+    var isPressed = function(key) {
+        var keyIndex = pressedKeys.indexOf(key);
+
+        return (keyIndex >= 0);
+    };
 	
 	var ignoreKey = function(key) {
 		return ignoreKeys.indexOf(key) >= 0;

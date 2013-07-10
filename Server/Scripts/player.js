@@ -1,10 +1,9 @@
-// Contains all of the logic for movement within the object
-// Can pass any Two.js object in to give it asteroid movement
+// Contains all of the logic for movement within the the game
+// Can pass any Two.js object in to give it ship movement
 function Player(ship, boundaries) {
 
 	// consts
-	var turnSpeed = 0.05,
-		moveSpeed = 0.05,
+	var moveSpeed = 0.05,
 		rotationSpeed = 0.04,
 		velocityDrag = 0.998,
 		rotationDrag = 0.940;
@@ -44,21 +43,23 @@ function Player(ship, boundaries) {
 	};
 	
 	// If the ship leaves the boundaries of the games, wrap it
-	var wrapShip = function() {
-		if(ship.translation.x < boundaries.width.min) {
-			ship.translation.x = boundaries.width.max;
-		}
-		else if(ship.translation.x > boundaries.width.max) {
-			ship.translation.x = boundaries.width.min;
-		}
-		
-		if(ship.translation.y < boundaries.height.min) {
-			ship.translation.y = boundaries.height.max;
-		}
-		else if(ship.translation.y > boundaries.height.max) {
-			ship.translation.y = boundaries.height.min;
-		}
-	}
+	var wrapShip = function () {
+	    // horizontal
+        if (ship.translation.x < boundaries.width.min) {
+            ship.translation.x = boundaries.width.max;
+        }
+        else if (ship.translation.x > boundaries.width.max) {
+            ship.translation.x = boundaries.width.min;
+        }
+
+        // vertical
+        if (ship.translation.y < boundaries.height.min) {
+            ship.translation.y = boundaries.height.max;
+        }
+        else if (ship.translation.y > boundaries.height.max) {
+            ship.translation.y = boundaries.height.min;
+        }
+    };
 	
 	return {
 		ship: ship,
