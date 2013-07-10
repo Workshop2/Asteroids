@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <title>
+        Aster-steroids
+    </title>
+    <link rel="stylesheet" href="Styles/main.css">
+
+    <script type="text/javascript" src="Scripts/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="Scripts/jquery.signalR-1.0.0.js"></script>
+    <script type="text/javascript" src="Scripts/two.js"></script>
+    <script type="text/javascript" src="Scripts/fps.js"></script>
+    <script type="text/javascript" src="Scripts/keys.js"></script>
+    <script type="text/javascript" src="Scripts/game.js"></script>
+    <script type="text/javascript" src="Scripts/player.js"></script>
+    <script type="text/javascript" src="Scripts/connector.js"></script>
+    <script type="text/javascript" src="Scripts/userInfo.js"></script>
+    <script type="text/javascript" src="Scripts/logger.js"></script>
+    <script type="text/javascript" src="signalr/hubs"></script>
+
+</head>
+<body>
+    <div id="draw-shapes" style="background: black"></div>
+    <div id="info"></div>
+    <script type="text/javascript">
+        var elem = document.getElementById('draw-shapes');
+        var info = $('#info');
+        var playArea = {
+            width: $(window).width(),
+            height: $(window).height() - 120
+        };
+
+        var boundaries = {
+            width: {
+                max: playArea.width + 15,
+                min: -15
+            },
+            height: {
+                max: playArea.height + 15,
+                min: -15
+            }
+        };
+
+        debugger;
+        var two = new Two(playArea).appendTo(elem);
+        var logger = new Logger(info);
+
+        $(function () {
+            debugger;
+            
+            // setup connection
+            var connection = $.connection;
+            logger.write("Connecting...");
+
+            // connect
+            $.connection.hub.start().done(function () {
+                logger.write("Connected...");
+
+                // generate the user
+                var user = new UserInfo();
+
+                logger.write("Username is " + user.displayName);
+
+                // create game
+                var game = new AsteroidsGame(two, boundaries);
+
+                // setup connector wrapper
+                var server = new ServerConnector(connection, user, {});
+
+                // start the game
+                game.play();
+            });
+        });
+    </script>
+</body>
+</html>
