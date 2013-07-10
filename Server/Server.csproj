@@ -95,6 +95,7 @@
     <Content Include="Scripts\keys.js" />
     <Content Include="Scripts\player.js" />
     <Content Include="Scripts\two.js" />
+    <Content Include="Styles\main.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
