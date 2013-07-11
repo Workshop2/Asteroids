@@ -1,4 +1,4 @@
-function AsteroidsGame(two, boundaries) {
+function AsteroidsGame(two, boundaries, logger) {
     
 	// properties 
 	var player = null,
@@ -52,8 +52,20 @@ function AsteroidsGame(two, boundaries) {
 	    player = player || createShip();
 		two.play();
 	};
+
+	var playerJoined = function (playerInfo) {
+	    debugger;
+	    logger.write(playerInfo.displayName + " has joined the game");
+	};
+
+	var playerDisconnected = function (playerInfo) {
+	    debugger;
+	    logger.write(playerInfo.displayName + " has left the game");
+	};
 	
 	return {
-		play: play
+	    play: play,
+	    playerJoined: playerJoined,
+	    playerDisconnected: playerDisconnected
 	};
 };

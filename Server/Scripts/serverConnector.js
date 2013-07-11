@@ -17,6 +17,9 @@ function ServerConnector(connection, userInfo, subscribers, logger) {
         logger.write("Signed in :)");
     };
 
+    game.client.playerJoined = subscribers.playerJoined;
+    game.client.playerDisconnected = subscribers.playerDisconnected;
+
     var sendMessage = function(message) {
 
     };
