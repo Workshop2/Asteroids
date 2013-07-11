@@ -1,3 +1,5 @@
+/// <reference path="player.js" />
+/// <reference path="keys.js" />
 function AsteroidsGame(two, boundaries, logger) {
     
 	// properties 
