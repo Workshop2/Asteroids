@@ -1,7 +1,7 @@
 function ServerConnector(connection, userInfo, subscribers, logger) {
 
     var game = connection.gameHub;
-    
+
     /*
             SEND
     */
@@ -13,7 +13,7 @@ function ServerConnector(connection, userInfo, subscribers, logger) {
     var updatePlayer = function (player) {
         game.server.updatePlayer(player);
     };
-    
+
 
 
 
@@ -22,8 +22,13 @@ function ServerConnector(connection, userInfo, subscribers, logger) {
     */
     game.client.signInComplete = function (a) {
         logger.write("Signed in :)");
+
+        debugger;
+        var signedIn = subscribers.signedIn;
+        if (signedIn)
+            subscribers.signedIn(a);
     };
-    
+
     game.client.playerJoined = subscribers.playerJoined;
     game.client.playerDisconnected = subscribers.playerDisconnected;
     game.client.playerChange = subscribers.playerChange;

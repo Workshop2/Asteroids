@@ -58,12 +58,19 @@
 
             // create game
             var game = new AsteroidsGame(two, boundaries, logger);
-
+            
+            var signedIn = function (userDetails) {
+                debugger;
+                // start the game
+                game.play(userDetails.colour);
+            };
+            
             // events that listen for messages from the server
             var eventHandlers = {
                 playerJoined: game.playerJoined,
                 playerDisconnected: game.playerDisconnected,
-                playerChange: game.playerChange
+                playerChange: game.playerChange,
+                signedIn: signedIn
             };
 
             // setup connector wrapper
@@ -78,8 +85,6 @@
                 server.signIn();
                 logger.connect($.connection);
 
-                // start the game
-                game.play();
             });
         });
     </script>

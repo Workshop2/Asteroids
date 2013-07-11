@@ -94,8 +94,8 @@ function AsteroidsGame(two, boundaries, logger) {
         return new Player(two, group, boundaries);
     };
 
-    var play = function () {
-        player = player || createShip();
+    var play = function (playerColour) {
+        player = player || createShip(playerColour);
         two.play();
     };
 
@@ -115,7 +115,7 @@ function AsteroidsGame(two, boundaries, logger) {
     var playerJoined = function (playerInfo) {
         logger.write(playerInfo.displayName + " has joined the game");
 
-        var ship = createShip();
+        var ship = createShip(playerInfo.colour);
         var enemy = new Enemy(playerInfo, ship, two);
 
         enemies[playerInfo.guid] = enemy;
