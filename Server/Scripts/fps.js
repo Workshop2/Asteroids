@@ -1,5 +1,6 @@
 var fps = new function() {
-	var currentCount = 0;	
+    var currentCount = 0,
+        originalTitle = document.title;
 
 	this.Setup = function() {
 		var counterElement = document.createElement('div');
@@ -8,7 +9,8 @@ var fps = new function() {
 		document.body.appendChild(counterElement);
 		
 		setInterval(function() {
-			counterElement.innerHTML = currentCount + " f/s";				
+		    counterElement.innerHTML = currentCount + " f/s";
+		    document.title = originalTitle + " " + counterElement.innerHTML;
 			currentCount = 0;
 		}, 1000);
 	};

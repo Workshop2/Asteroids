@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
 
 namespace Server
@@ -20,6 +21,12 @@ namespace Server
             }
             else
             {
+                // tell them about all of the existing users
+                foreach (var userKey in Users.Keys)
+                {
+                    Clients.Caller.playerJoined(Users[userKey]);
+                }
+
                 result = new UserInfo
                 {
                     displayName = userInfo.displayName,
@@ -28,13 +35,13 @@ namespace Server
                 };
                 Users.Add(connectionId, result);
 
-                Clients.All.playerJoined(result);
+                Clients.AllExcept(connectionId).playerJoined(result);
             }
 
             Clients.Caller.signInComplete(result);
         }
 
-        public override System.Threading.Tasks.Task OnDisconnected()
+        public override Task OnDisconnected()
         {
             string connectionId = this.Context.ConnectionId;
             if (Users.ContainsKey(connectionId))
@@ -44,6 +51,12 @@ namespace Server
             }
             
             return base.OnDisconnected();
+        }
+
+        public void UpdatePlayer(dynamic player)
+        {
+            player.guid = this.Context.ConnectionId;
+            Clients.AllExcept(this.Context.ConnectionId).playerChange(player);
         }
 
         private static string RandomColour()
