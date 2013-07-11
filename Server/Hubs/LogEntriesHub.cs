@@ -19,19 +19,6 @@ namespace Server
 		public void Info(string message)
 		{
 			_log.Info(message);
-			Console.WriteLine(message);
-		}
-
-		public void Warn(string message)
-		{
-			_log.Warn(message);
-			Console.WriteLine(message);
-		}
-
-		public void Error(string message)
-		{
-			_log.Error(message);
-			Console.WriteLine(message);
 		}
 	}
 }

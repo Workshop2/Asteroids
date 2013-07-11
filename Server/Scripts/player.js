@@ -94,6 +94,14 @@ function Player(two, ship, boundaries) {
         else if (ship.translation.y > boundaries.height.max) {
             ship.translation.y = boundaries.height.min;
         }
+	};
+
+    var generateDto = function() {
+        return {
+            x: ship.translation.x,
+            y: ship.translation.y,
+            r: ship.rotation
+        };
     };
 	
 	return {
@@ -102,6 +110,7 @@ function Player(two, ship, boundaries) {
 		rightTurn: rightTurn,
 		accelerate: accelerate,
 		update: update,
+		generateDto: generateDto,
         fire: fire
 	};
 };

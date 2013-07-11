@@ -14,7 +14,7 @@
     <RootNamespace>Server</RootNamespace>
     <AssemblyName>Server</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -90,6 +90,7 @@
     <Content Include="Asteroids.html" />
     <Content Include="Global.asax" />
     <Content Include="Index.html" />
+    <Content Include="Scripts\enemy.js" />
     <Content Include="Scripts\logger.js" />
     <Content Include="Scripts\serverConnector.js" />
     <Content Include="Scripts\userInfo.js" />
@@ -138,7 +139,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>64004</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:8175/</IISUrl>
+          <IISUrl>http://localhost:64004/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
