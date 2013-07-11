@@ -1,5 +1,4 @@
 function ServerConnector(connection, userInfo, subscribers, logger) {
-    debugger;
 
     // Test
     var chat = connection.chatHub, 
@@ -9,7 +8,6 @@ function ServerConnector(connection, userInfo, subscribers, logger) {
             SEND
     */
     var signIn = function () {
-        debugger;
         logger.write("Signing in...");
         game.server.signIn(userInfo);
     };
@@ -29,7 +27,6 @@ function ServerConnector(connection, userInfo, subscribers, logger) {
             RECEIVE
     */
     game.client.signInComplete = function (a) {
-        debugger;
         logger.write("Signed in :)");
     };
     

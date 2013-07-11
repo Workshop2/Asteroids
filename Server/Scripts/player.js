@@ -58,8 +58,8 @@ function Player(two, ship, boundaries) {
 	        var bullet = bullets[i];
 	        console.log(bullet.rotation);
 
-	        if (bullet.translation.x < boundaries.width.min + 53
-                || bullet.translation.x > boundaries.width.max - 53
+	        if (bullet.translation.x < boundaries.width.min
+                || bullet.translation.x > boundaries.width.max
 	            || bullet.translation.y < boundaries.height.min
 	            || bullet.translation.y > boundaries.height.max) {
 	            two.remove(bullet);
@@ -100,7 +100,10 @@ function Player(two, ship, boundaries) {
         return {
             x: ship.translation.x,
             y: ship.translation.y,
-            r: ship.rotation
+            r: ship.rotation,
+            vx: velocityX,
+            vy: velocityY,
+            vR: velocityRotation
         };
     };
 
@@ -108,6 +111,10 @@ function Player(two, ship, boundaries) {
         ship.translation.x = dto.x;
         ship.translation.y = dto.y;
         ship.rotation = dto.r;
+
+        velocityX = dto.vx;
+        velocityY = dto.vy;
+        velocityRotation = dto.vR;
     };
 	
 	return {

@@ -1,4 +1,11 @@
-﻿#info {
+﻿
+#info {
     height: 200px;
     overflow: auto;
+}
+
+#draw-shapes {
+    width: 640px;
+    height: 480px;
+    margin: 0 auto;
 }

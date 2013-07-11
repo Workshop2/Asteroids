@@ -37,15 +37,17 @@ function AsteroidsGame(two, boundaries, logger) {
 		
 		player.update();
 
-		if (count > 5) {
+		if (count > 30) {
 		    updatePlayer(player.generateDto());
 		    count = 0;
 		}
+		count++;
+
+	    updateEnemies();
 
 		// update the fps counter
 	    fps.Count();
 
-	    count++;
 	});
 	
 	var createShip = function() {
@@ -78,6 +80,11 @@ function AsteroidsGame(two, boundaries, logger) {
 		two.play();
 	};
 
+	var updateEnemies = function () {
+        for (var enemy in enemies) {
+            enemies[enemy].update();
+        }
+    };
 
     /*
         ----------- Connection stuff -----------
@@ -87,7 +94,6 @@ function AsteroidsGame(two, boundaries, logger) {
     };
 
 	var playerJoined = function (playerInfo) {
-	    debugger;
 	    logger.write(playerInfo.displayName + " has joined the game");
 
 	    var ship = createShip();
@@ -97,7 +103,6 @@ function AsteroidsGame(two, boundaries, logger) {
 	};
 
 	var playerDisconnected = function (playerDto) {
-	    debugger;
 	    logger.write(playerDto.displayName + " has left the game");
 	    
 	    var enemy = enemies[playerDto.guid];
@@ -112,13 +117,11 @@ function AsteroidsGame(two, boundaries, logger) {
     };
 
 	var playerChange = function (playerDto) {
-	    logger.write(playerDto.guid + " moved");
-
 	    var enemy = enemies[playerDto.guid];
 	    if (!enemy)
 	        return;
 
-	    enemy.update(playerDto);
+	    enemy.updateFromDto(playerDto);
 	};
 	
 	return {
