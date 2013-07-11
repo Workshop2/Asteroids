@@ -1,10 +1,7 @@
-﻿function Logger(connection, display) {
-
-    var loggerHub = connection.logEntriesHub;
+﻿function Logger(display) {
 
     var write = function(message) {
         console.log(message);
-        //loggerHub.server.info(message);
 
         if (!display)
             return;

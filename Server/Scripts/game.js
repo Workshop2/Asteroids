@@ -2,6 +2,7 @@
 /// <reference path="keys.js" />
 /// <reference path="enemy.js" />
 /// <reference path="fps.js" />
+/// <reference path="playerState.js" />
 function AsteroidsGame(two, boundaries, logger) {
 
     // properties 
@@ -10,19 +11,29 @@ function AsteroidsGame(two, boundaries, logger) {
 	    enemies = {},
 	    server = null,
 	    count = 0,
-	    spaceCount = 0;
+	    spaceCount = 0,
+        playerState = new PlayerState();
 
     two.bind('update', function () {
         if (key.isPressed(key.keyMap.left)) {
             player.leftTurn();
+            playerState.keyPressed(key.keyMap.left);
+        } else {
+            playerState.keyNotPressed(key.keyMap.left);
         }
 
         if (key.isPressed(key.keyMap.right)) {
             player.rightTurn();
+            playerState.keyPressed(key.keyMap.right);
+        } else {
+            playerState.keyNotPressed(key.keyMap.right);
         }
 
         if (key.isPressed(key.keyMap.up)) {
             player.accelerate();
+            playerState.keyPressed(key.keyMap.up);
+        } else {
+            playerState.keyNotPressed(key.keyMap.up);
         }
 
         if (key.isPressed(key.keyMap.space)) {
@@ -37,17 +48,20 @@ function AsteroidsGame(two, boundaries, logger) {
 
         player.update();
 
-        if (count > 30) {
+        if (count > 15 || playerState.changed()) {
             updatePlayer(player.generateDto());
             count = 0;
         }
         count++;
 
+        //if (playerState.changed())
+        //    logger.write("State changed");
+
         updateEnemies();
 
         // update the fps counter
         fps.Count();
-
+        playerState.reset();
     });
 
     var createShip = function () {
@@ -113,6 +127,7 @@ function AsteroidsGame(two, boundaries, logger) {
     };
 
     var updatePlayer = function (userDto) {
+        userDto = $.extend(userDto, { keys: playerState.pressedKeys });
         server.updatePlayer(userDto);
     };
 
