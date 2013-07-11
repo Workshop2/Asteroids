@@ -1,7 +1,11 @@
+<<<<<<< HEAD
 /// <reference path="player.js" />
 /// <reference path="keys.js" />
 
 function AsteroidsGame(two, boundaries) {
+=======
+function AsteroidsGame(two, boundaries, logger) {
+>>>>>>> 35894e207d00211f1f11d769032beb8f58583eb1
     
 	// properties 
 	var player = null,
@@ -66,8 +70,20 @@ function AsteroidsGame(two, boundaries) {
 	    player = player || createShip();
 		two.play();
 	};
+
+	var playerJoined = function (playerInfo) {
+	    debugger;
+	    logger.write(playerInfo.displayName + " has joined the game");
+	};
+
+	var playerDisconnected = function (playerInfo) {
+	    debugger;
+	    logger.write(playerInfo.displayName + " has left the game");
+	};
 	
 	return {
-		play: play
+	    play: play,
+	    playerJoined: playerJoined,
+	    playerDisconnected: playerDisconnected
 	};
 };

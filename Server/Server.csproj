@@ -83,8 +83,8 @@
     <Content Include="Asteroids.html" />
     <Content Include="Global.asax" />
     <Content Include="Index.html" />
-    <Content Include="Scripts\connector.js" />
     <Content Include="Scripts\logger.js" />
+    <Content Include="Scripts\serverConnector.js" />
     <Content Include="Scripts\userInfo.js" />
     <Content Include="Scripts\fps.js" />
     <Content Include="Scripts\game.js" />
