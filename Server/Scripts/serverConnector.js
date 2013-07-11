@@ -29,7 +29,6 @@ function ServerConnector(connection, userInfo, subscribers, logger) {
     game.client.playerChange = subscribers.playerChange;
 
     return {
-        sendMessage: sendMessage,
         updatePlayer: updatePlayer,
         signIn: signIn
     };

@@ -5,6 +5,10 @@
 /// <reference path="playerState.js" />
 function AsteroidsGame(two, boundaries, logger) {
 
+    // consts
+    var updateRate = 15,
+        bulletRate = 10;
+
     // properties 
     var player = null,
 		key = new Keys(),
@@ -15,6 +19,9 @@ function AsteroidsGame(two, boundaries, logger) {
         playerState = new PlayerState();
 
     two.bind('update', function () {
+        // playerState alerts us when the currently pressed keys have changed
+        // this will initiate an emergency update (sends to server)
+
         if (key.isPressed(key.keyMap.left)) {
             player.leftTurn();
             playerState.keyPressed(key.keyMap.left);
@@ -43,20 +50,17 @@ function AsteroidsGame(two, boundaries, logger) {
             spaceCount++;
         }
 
-        if (spaceCount > 10)
+        if (spaceCount > bulletRate)
             spaceCount = 0;
 
         player.update();
 
-        if (count > 15 || playerState.changed()) {
+        if (count > updateRate || playerState.changed()) {
             updatePlayer(player.generateDto());
             count = 0;
         }
         count++;
-
-        //if (playerState.changed())
-        //    logger.write("State changed");
-
+        
         updateEnemies();
 
         // update the fps counter
@@ -64,7 +68,8 @@ function AsteroidsGame(two, boundaries, logger) {
         playerState.reset();
     });
 
-    var createShip = function () {
+    // used for creating the player and enemy ships
+    var createShip = function (colour) {
         var height = 14,
 			width = 20;
 
@@ -78,7 +83,7 @@ function AsteroidsGame(two, boundaries, logger) {
 			y3 = 0;
 
         var ship = two.makePolygon(x1, y1, x2, y2, x3, y3);
-        ship.stroke = '#BFFF00';
+        ship.stroke = colour || '#BFFF00';
         ship.linewidth = 1;
         ship.noFill();
 
