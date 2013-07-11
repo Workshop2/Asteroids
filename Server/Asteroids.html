@@ -42,34 +42,35 @@
         };
 
         var two = new Two(playArea).appendTo(elem);
-        var logger = new Logger(info);
 
         $(function () {
-            
+
             // setup connection
             var connection = $.connection;
-            logger.write("Connecting...");
-
-            // generate the user
-            var user = new UserInfo();
-            logger.write("Username is " + user.displayName);
-
-            // create game
-            var game = new AsteroidsGame(two, boundaries, logger);
-            
-            // events that listen for messages from the server
-            var eventHandlers = {
-                playerJoined: game.playerJoined,
-                playerDisconnected: game.playerDisconnected
-            };
-
-            // setup connector wrapper
-            var server = new ServerConnector(connection, user, eventHandlers, logger);
 
             // connect
-            $.connection.hub.start().done(function () {
-                logger.write("Connected...");
+            $.connection.hub.start().done(function ()
+            {
+                var logger = new Logger(connection, info);
+
+                // generate the user
+                var user = new UserInfo();
+
+                // create game
+                var game = new AsteroidsGame(two, boundaries, logger);
+
+                // events that listen for messages from the server
+                var eventHandlers = {
+                    playerJoined: game.playerJoined,
+                    playerDisconnected: game.playerDisconnected
+                };
+
+                // setup connector wrapper
+                var server = new ServerConnector(connection, user, eventHandlers, logger);
                 
+                logger.write("Connected...");
+                logger.write("Username is " + user.displayName);
+
                 server.signIn();
 
                 // start the game
