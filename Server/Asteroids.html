@@ -66,6 +66,7 @@
 
                 // setup connector wrapper
                 var server = new ServerConnector(connection, user, {});
+                server.signIn();
 
                 // start the game
                 game.play();

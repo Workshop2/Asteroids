@@ -49,7 +49,7 @@ function AsteroidsGame(two, boundaries) {
 	};
 	
 	var play = function() {
-		player = createShip();
+	    player = player || createShip();
 		two.play();
 	};
 	
