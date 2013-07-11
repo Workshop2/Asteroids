@@ -103,6 +103,12 @@ function Player(two, ship, boundaries) {
             r: ship.rotation
         };
     };
+
+    var updateFromDto = function (dto) {
+        ship.translation.x = dto.x;
+        ship.translation.y = dto.y;
+        ship.rotation = dto.r;
+    };
 	
 	return {
 		ship: ship,
@@ -111,6 +117,7 @@ function Player(two, ship, boundaries) {
 		accelerate: accelerate,
 		update: update,
 		generateDto: generateDto,
-        fire: fire
+		fire: fire,
+		updateFromDto: updateFromDto
 	};
 };

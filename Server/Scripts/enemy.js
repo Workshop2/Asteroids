@@ -1,15 +1,11 @@
 ﻿function Enemy(userInfo, ship, two) {
     
     var destroy = function() {
-        two.remove(ship);
+        two.remove(ship.ship);
     };
 
-    var update = function(player) {
-        debugger;
-
-        ship.ship.translation.x = player.x;
-        ship.ship.translation.y = player.y;
-        ship.ship.rotation = player.r;
+    var update = function (dto) {
+        ship.updateFromDto(dto);
     };
 
     return {
