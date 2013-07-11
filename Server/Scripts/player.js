@@ -67,7 +67,7 @@ function Player(two, ship, boundaries) {
 	        }
 	        else {
 	            bullet.translation.x += Math.cos(bullet.rotation) * bulletVelocity;
-	            bullet.translation.y += Math.sin(bullet.rotation) * bulletVelocity;
+	            bullet.translation.y += Math.cos(bullet.rotation) * bulletVelocity;
 	        }
 	    }
 

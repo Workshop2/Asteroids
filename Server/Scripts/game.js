@@ -1,12 +1,8 @@
-<<<<<<< HEAD
 /// <reference path="player.js" />
 /// <reference path="keys.js" />
 
-function AsteroidsGame(two, boundaries) {
-=======
-function AsteroidsGame(two, boundaries, logger) {
->>>>>>> 35894e207d00211f1f11d769032beb8f58583eb1
-    
+
+function AsteroidsGame(two, boundaries, logger) {    
 	// properties 
 	var player = null,
 		key = new Keys(),
