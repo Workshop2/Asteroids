@@ -98,8 +98,8 @@ function Player(two, ship, boundaries) {
 
     var generateDto = function() {
         return {
-            x: ship.translation.x,
-            y: ship.translation.y,
+            x: parseInt(ship.translation.x),
+            y: parseInt(ship.translation.y),
             r: ship.rotation,
             vx: velocityX,
             vy: velocityY,

@@ -84,7 +84,7 @@ function AsteroidsGame(two, boundaries, logger) {
 
         var ship = two.makePolygon(x1, y1, x2, y2, x3, y3);
         ship.stroke = colour || '#BFFF00';
-        ship.linewidth = 1;
+        ship.linewidth = 2;
         ship.noFill();
 
         // position in center of screen
