@@ -1,5 +1,7 @@
 /// <reference path="player.js" />
 /// <reference path="keys.js" />
+/// <reference path="enemy.js" />
+/// <reference path="fps.js" />
 function AsteroidsGame(two, boundaries, logger) {
     
 	// properties 
@@ -35,10 +37,10 @@ function AsteroidsGame(two, boundaries, logger) {
 		
 		player.update();
 
-		//if (count > 5) {
+		if (count > 5) {
 		    updatePlayer(player.generateDto());
 		    count = 0;
-		//}
+		}
 
 		// update the fps counter
 	    fps.Count();
@@ -94,9 +96,15 @@ function AsteroidsGame(two, boundaries, logger) {
 	    enemies[playerInfo.guid] = enemy;
 	};
 
-	var playerDisconnected = function (playerInfo) {
+	var playerDisconnected = function (playerDto) {
 	    debugger;
-	    logger.write(playerInfo.displayName + " has left the game");
+	    logger.write(playerDto.displayName + " has left the game");
+	    
+	    var enemy = enemies[playerDto.guid];
+	    if (!enemy)
+	        return;
+
+	    enemy.destroy();
 	};
 
     var updatePlayer = function(userDto) {
@@ -104,7 +112,6 @@ function AsteroidsGame(two, boundaries, logger) {
     };
 
 	var playerChange = function (playerDto) {
-	    debugger;
 	    logger.write(playerDto.guid + " moved");
 
 	    var enemy = enemies[playerDto.guid];
