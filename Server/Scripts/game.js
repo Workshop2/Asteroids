@@ -90,8 +90,8 @@ function AsteroidsGame(two, boundaries, logger) {
         // position in center of screen
         var group = two.makeGroup(ship);
         group.translation.set(two.width / 2, two.height / 2);
-
-        return new Player(two, group, boundaries);
+        debugger; 
+        return new Player(two, group, boundaries, logger);
     };
 
     var play = function (playerColour) {

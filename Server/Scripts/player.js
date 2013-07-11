@@ -2,84 +2,91 @@
 // Can pass any Two.js object in to give it ship movement
 function Player(two, ship, boundaries) {
 
-	// consts
+    // consts
     var moveSpeed = 0.05,
 		rotationSpeed = 0.04,
 		velocityDrag = 0.998,
 		rotationDrag = 0.940,
-        bulletVelocity = 4;
-		
-	// private members
-	var velocityX = 0,
+        maxSpeed = 4;
+
+    // private members
+    var velocityX = 0,
 		velocityY = 0,
 		velocityRotation = 0;
 
-    //ship.scale = 2;
-	var bullets = [];
+    var bullets = [];
 
-	var leftTurn = function() {
-		velocityRotation = -rotationSpeed;
-	};
-	
-	var rightTurn = function() {
-		velocityRotation = rotationSpeed;
-	};
-	
-	var accelerate = function () {
-		velocityX += Math.cos(ship.rotation) * moveSpeed;
-		velocityY += Math.sin(ship.rotation) * moveSpeed;
-	};
+    var leftTurn = function () {
+        velocityRotation = -rotationSpeed;
+    };
 
-	var fire = function () {
-	    var bullet = two.makeCircle(ship.translation.x, ship.translation.y, 2);
-	    bullet.rotation = ship.rotation;
-	    bullets.push(bullet);
-	};
-	
-	var update = function() {
-		ship.translation.x += velocityX;
-		ship.translation.y += velocityY;
-		
-		// apply drag to the ship
-		velocityX *= velocityDrag;
-		velocityY *= velocityDrag;
-		
-		ship.rotation += velocityRotation;
-		velocityRotation *= rotationDrag;
-		
-		wrapShip();
-		calculateBullets();
-	};
+    var rightTurn = function () {
+        velocityRotation = rotationSpeed;
+    };
 
-	var calculateBullets = function () {
-	    var removedItems = [];
+    var accelerate = function () {
+        if (velocityX < maxSpeed)
+            velocityX += Math.cos(ship.rotation) * moveSpeed;
 
-	    for (var i = 0; i < bullets.length; i++) {
-	        var bullet = bullets[i];
-	        console.log(bullet.rotation);
+        if (velocityY < maxSpeed)
+            velocityY += Math.sin(ship.rotation) * moveSpeed;
+    };
 
-	        if (bullet.translation.x < boundaries.width.min
-                || bullet.translation.x > boundaries.width.max
-	            || bullet.translation.y < boundaries.height.min
-	            || bullet.translation.y > boundaries.height.max) {
-	            two.remove(bullet);
-	            removedItems.push(i);
-	        }
-	        else {
-	            bullet.translation.x += Math.cos(bullet.rotation) * bulletVelocity;
-	            bullet.translation.y += Math.sin(bullet.rotation) * bulletVelocity;
-	        }
-	    }
+    var fire = function () {
+        var shipDetails = {
+            x: ship.translation.x,
+            y: ship.translation.y,
+            rotation: ship.rotation,
+            velocityX: velocityX,
+            velocityY: velocityY
+        };
 
-	    for (var j = 0; j < removedItems.length; j++) {
-	        var index = removedItems[j];
-	        bullets.splice(index, 1);
-	    }
-	};
-	
-	// If the ship leaves the boundaries of the games, wrap it
-	var wrapShip = function () {
-	    // horizontal
+        var bullet = new Bullet(two, shipDetails, boundaries);
+        bullets.push(bullet);
+    };
+
+    var update = function () {
+        ship.translation.x += velocityX;
+        ship.translation.y += velocityY;
+
+        // apply drag to the ship
+        velocityX *= velocityDrag;
+        velocityY *= velocityDrag;
+
+        ship.rotation += velocityRotation;
+        velocityRotation *= rotationDrag;
+
+        wrapShip();
+        updateBullets();
+    };
+
+    var updateBullets = function () {
+        var removedItems = [];
+
+        for (var i = 0; i < bullets.length; i++) {
+            var bullet = bullets[i];
+
+            bullet.update();
+
+            if (bullet.outOfBounds()) {
+                bullet.destroy();
+                removedItems.push(bullet);
+            }
+        }
+
+        for (var j = 0; j < removedItems.length; j++) {
+            var oldBullet = removedItems[j];
+            var index = bullets.indexOf(oldBullet);
+
+            if (index >= 0) {
+                bullets.splice(index, 1);
+            }
+        }
+    };
+
+    // If the ship leaves the boundaries of the games, wrap it
+    var wrapShip = function () {
+        // horizontal
         if (ship.translation.x < boundaries.width.min) {
             ship.translation.x = boundaries.width.max;
         }
@@ -94,11 +101,11 @@ function Player(two, ship, boundaries) {
         else if (ship.translation.y > boundaries.height.max) {
             ship.translation.y = boundaries.height.min;
         }
-	};
+    };
 
-    var generateDto = function() {
+    var generateDto = function () {
         return {
-            x: parseInt(ship.translation.x),
+            x: parseInt(ship.translation.x), // returning int to help reduce the data size being transfered
             y: parseInt(ship.translation.y),
             r: ship.rotation,
             vx: velocityX,
@@ -116,15 +123,15 @@ function Player(two, ship, boundaries) {
         velocityY = dto.vy;
         velocityRotation = dto.vR;
     };
-	
-	return {
-		ship: ship,
-		leftTurn: leftTurn,
-		rightTurn: rightTurn,
-		accelerate: accelerate,
-		update: update,
-		generateDto: generateDto,
-		fire: fire,
-		updateFromDto: updateFromDto
-	};
+
+    return {
+        ship: ship,
+        leftTurn: leftTurn,
+        rightTurn: rightTurn,
+        accelerate: accelerate,
+        update: update,
+        generateDto: generateDto,
+        fire: fire,
+        updateFromDto: updateFromDto
+    };
 };

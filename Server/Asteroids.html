@@ -18,6 +18,7 @@
     <script type="text/javascript" src="Scripts/logger.js"></script>
     <script type="text/javascript" src="Scripts/enemy.js"></script>
     <script type="text/javascript" src="Scripts/playerState.js"></script>
+    <script type="text/javascript" src="Scripts/bullet.js"></script>
     <script type="text/javascript" src="signalr/hubs"></script>
 
 </head>
@@ -27,23 +28,24 @@
     <script type="text/javascript">
         var elem = document.getElementById('draw-shapes');
         var info = $('#info');
-        var playArea = {
+        var twoParams = {
             width: 640,
-            height: 480
+            height: 480,
+            type: Two.Types.canvas
         };
 
         var boundaries = {
             width: {
-                max: playArea.width + 15,
+                max: twoParams.width + 15,
                 min: -15
             },
             height: {
-                max: playArea.height + 15,
+                max: twoParams.height + 15,
                 min: -15
             }
         };
 
-        var two = new Two(playArea).appendTo(elem);
+        var two = new Two(twoParams).appendTo(elem);
         var logger = new Logger(info);
 
         $(function () {

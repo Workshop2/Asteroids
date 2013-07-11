@@ -90,6 +90,7 @@
     <Content Include="Asteroids.html" />
     <Content Include="Global.asax" />
     <Content Include="Index.html" />
+    <Content Include="Scripts\bullet.js" />
     <Content Include="Scripts\enemy.js" />
     <Content Include="Scripts\logger.js" />
     <Content Include="Scripts\playerState.js" />
