@@ -1,18 +1,16 @@
 ﻿function Logger(display) {
-    
+
     var logQueue = [];
     var loggerHub = null;
     var connected = false;
 
-    var write = function(message) {
+    var write = function (message) {
         console.log(message);
 
-        if (!connected)
-        {
+        if (!connected) {
             logQueue.push(message);
         }
-        else
-        {
+        else {
             loggerHub.server.info(message);
         }
 
@@ -26,7 +24,9 @@
         loggerHub = connection.logEntriesHub;
         connected = true;
 
-        for (var i = 0; i < logQueue.len; i++) {
+        console.log("Pushing " + logQueue.length + " log messages to the server");
+
+        for (var i = 0; i < logQueue.length; i++) {
             loggerHub.server.info(logQueue[i]);
         }
 
