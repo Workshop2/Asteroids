@@ -6,7 +6,7 @@ namespace Server
 {
     public class GameHub : Hub
     {
-        private static Dictionary<string, UserInfo> _users = new Dictionary<string, UserInfo>();
+        private static readonly Dictionary<string, UserInfo> Users = new Dictionary<string, UserInfo>();
 
         public void SignIn(UserInfo userInfo)
         {
@@ -14,9 +14,9 @@ namespace Server
             string connectionId = this.Context.ConnectionId;
 
             // only allow the same user to sign in once
-            if (_users.ContainsKey(connectionId))
+            if (Users.ContainsKey(connectionId))
             {
-                result = _users[connectionId];
+                result = Users[connectionId];
             }
             else
             {
@@ -26,7 +26,7 @@ namespace Server
                     colour = RandomColour(),
                     guid = connectionId
                 };
-                _users.Add(connectionId, result);
+                Users.Add(connectionId, result);
 
                 Clients.All.playerJoined(result);
             }
@@ -37,10 +37,10 @@ namespace Server
         public override System.Threading.Tasks.Task OnDisconnected()
         {
             string connectionId = this.Context.ConnectionId;
-            if (_users.ContainsKey(connectionId))
+            if (Users.ContainsKey(connectionId))
             {
-                Clients.All.playerDisconnected(_users[connectionId]);
-                _users.Remove(Context.ConnectionId);
+                Clients.All.playerDisconnected(Users[connectionId]);
+                Users.Remove(Context.ConnectionId);
             }
             
             return base.OnDisconnected();
