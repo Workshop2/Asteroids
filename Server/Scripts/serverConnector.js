@@ -1,6 +1,7 @@
 function ServerConnector(connection, userInfo, subscribers, logger) {
     debugger;
 
+    // Test
     var chat = connection.chatHub, 
         game = connection.gameHub;
     
