@@ -1,8 +1,12 @@
+/// <reference path="player.js" />
+/// <reference path="keys.js" />
+
 function AsteroidsGame(two, boundaries) {
     
 	// properties 
 	var player = null,
-		key = new Keys();
+		key = new Keys(),
+	    spaceCount = 0;
 	
 	two.bind('update', function() {
 		if(key.isPressed(key.keyMap.left)) {
@@ -16,6 +20,16 @@ function AsteroidsGame(two, boundaries) {
 		if(key.isPressed(key.keyMap.up)) {
 			player.accelerate();
 		}
+
+		if (key.isPressed(key.keyMap.space)) {
+		    if(spaceCount == 0)
+		        player.fire();
+
+		    spaceCount++;
+		}
+  
+		if (spaceCount > 10)
+		    spaceCount = 0;
 		
 		player.update();
 		
@@ -24,8 +38,8 @@ function AsteroidsGame(two, boundaries) {
 	});
 	
 	var createShip = function() {
-		var height = 7,
-			width = 10;
+		var height = 14,
+			width = 20;
 	
 		var x1 = -(width / 2),
 			y1 = -(height / 2),
@@ -45,7 +59,7 @@ function AsteroidsGame(two, boundaries) {
 		var group = two.makeGroup(ship);
 		group.translation.set(two.width / 2, two.height / 2);
 		
-		return new Player(group, boundaries);
+		return new Player(two, group, boundaries);
 	};
 	
 	var play = function() {
