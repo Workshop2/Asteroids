@@ -127,6 +127,9 @@ function AsteroidsGame(two, boundaries, logger) {
     };
 
     var updatePlayer = function (userDto) {
+        // simulate the buttons being pressed
+        // improves smoothness
+        // attach the currently pressed keys
         userDto = $.extend(userDto, { keys: playerState.pressedKeys });
         server.updatePlayer(userDto);
     };

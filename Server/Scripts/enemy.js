@@ -12,6 +12,8 @@
     };
 
     var update = function () {
+        // simulate the buttons being pressed
+        // improves smoothness
         if (keyExists(keyMap.up)) {
             ship.accelerate();
         }
