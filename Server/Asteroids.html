@@ -52,21 +52,21 @@
             var connection = $.connection;
             logger.write("Connecting...");
 
+            // generate the user
+            var user = new UserInfo();
+            logger.write("Username is " + user.displayName);
+
+            // setup connector wrapper
+            var server = new ServerConnector(connection, user, {}, logger);
+
             // connect
             $.connection.hub.start().done(function () {
                 logger.write("Connected...");
-
-                // generate the user
-                var user = new UserInfo();
-
-                logger.write("Username is " + user.displayName);
+                
+                server.signIn();
 
                 // create game
                 var game = new AsteroidsGame(two, boundaries);
-
-                // setup connector wrapper
-                var server = new ServerConnector(connection, user, {});
-                server.signIn();
 
                 // start the game
                 game.play();

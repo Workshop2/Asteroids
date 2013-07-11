@@ -6,7 +6,7 @@ namespace Server
     {
         public void SignIn(UserInfo userInfo)
         {
-            Clients.All.signInComplete(userInfo);
+            Clients.Caller.signInComplete(userInfo);
         }
     }
 
