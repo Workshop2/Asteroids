@@ -25,10 +25,10 @@ function Player(two, ship, boundaries) {
     };
 
     var accelerate = function () {
-        if (velocityX < maxSpeed)
+        if (velocityX < maxSpeed && velocityX > -maxSpeed)
             velocityX += Math.cos(ship.rotation) * moveSpeed;
 
-        if (velocityY < maxSpeed)
+        if (velocityY < maxSpeed && velocityY > -maxSpeed)
             velocityY += Math.sin(ship.rotation) * moveSpeed;
     };
 
