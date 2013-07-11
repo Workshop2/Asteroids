@@ -16,6 +16,7 @@
     <script type="text/javascript" src="Scripts/serverConnector.js"></script>
     <script type="text/javascript" src="Scripts/userInfo.js"></script>
     <script type="text/javascript" src="Scripts/logger.js"></script>
+    <script type="text/javascript" src="Scripts/enemy.js"></script>
     <script type="text/javascript" src="signalr/hubs"></script>
 
 </head>
@@ -42,35 +43,36 @@
         };
 
         var two = new Two(playArea).appendTo(elem);
+        var logger = new Logger(info);
 
         $(function () {
 
             // setup connection
             var connection = $.connection;
+            logger.write("Connecting...");
+
+            // generate the user
+            var user = new UserInfo();
+            logger.write("Username is " + user.displayName);
+
+            // create game
+            var game = new AsteroidsGame(two, boundaries, logger);
+
+            // events that listen for messages from the server
+            var eventHandlers = {
+                playerJoined: game.playerJoined,
+                playerDisconnected: game.playerDisconnected,
+                playerChange: game.playerChange
+            };
+
+            // setup connector wrapper
+            var server = new ServerConnector(connection, user, eventHandlers, logger);
+
+            game.setConnector(server);
 
             // connect
-            $.connection.hub.start().done(function ()
-            {
-                var logger = new Logger(connection, info);
-
-                // generate the user
-                var user = new UserInfo();
-
-                // create game
-                var game = new AsteroidsGame(two, boundaries, logger);
-
-                // events that listen for messages from the server
-                var eventHandlers = {
-                    playerJoined: game.playerJoined,
-                    playerDisconnected: game.playerDisconnected,
-                    playerChange: game.playerChange
-                };
-
-                // setup connector wrapper
-                var server = new ServerConnector(connection, user, eventHandlers, logger);
-                
+            $.connection.hub.start().done(function () {
                 logger.write("Connected...");
-                logger.write("Username is " + user.displayName);
 
                 server.signIn();
 

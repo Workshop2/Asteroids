@@ -14,7 +14,7 @@
     <RootNamespace>Server</RootNamespace>
     <AssemblyName>Server</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -92,6 +92,7 @@
     <Content Include="Index.html" />
     <Content Include="Scripts\enemy.js" />
     <Content Include="Scripts\logger.js" />
+    <Content Include="Scripts\playerState.js" />
     <Content Include="Scripts\serverConnector.js" />
     <Content Include="Scripts\userInfo.js" />
     <Content Include="Scripts\fps.js" />

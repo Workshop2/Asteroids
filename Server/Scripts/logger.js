@@ -4,7 +4,7 @@
 
     var write = function(message) {
         console.log(message);
-        loggerHub.server.info(message);
+        //loggerHub.server.info(message);
 
         if (!display)
             return;
