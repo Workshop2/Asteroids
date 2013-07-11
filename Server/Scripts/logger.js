@@ -26,7 +26,8 @@
         loggerHub = connection.logEntriesHub;
         connected = true;
 
-        for (var i = 0; i < logQueue.len; i++) {
+        console.log("Pushing " + logQueue.length + " log messages to the server");
+        for (var i = 0; i < logQueue.length; i++) {
             loggerHub.server.info(logQueue[i]);
         }
 
