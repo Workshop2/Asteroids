@@ -7,6 +7,7 @@
     };
 
     var updateFromDto = function (dto) {
+        // store down the currently pressed keys for the update to used
         keys = dto.keys;
         ship.updateFromDto(dto);
     };

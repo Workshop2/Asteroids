@@ -1,8 +1,6 @@
 function ServerConnector(connection, userInfo, subscribers, logger) {
 
-    // Test
-    var chat = connection.chatHub, 
-        game = connection.gameHub;
+    var game = connection.gameHub;
     
     /*
             SEND
@@ -10,10 +8,6 @@ function ServerConnector(connection, userInfo, subscribers, logger) {
     var signIn = function () {
         logger.write("Signing in...");
         game.server.signIn(userInfo);
-    };
-
-    var sendMessage = function (message) {
-
     };
 
     var updatePlayer = function (player) {
