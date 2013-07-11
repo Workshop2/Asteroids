@@ -1,15 +1,11 @@
 /// <reference path="player.js" />
 /// <reference path="keys.js" />
-/// <reference path="enemy.js" />
-/// <reference path="fps.js" />
-function AsteroidsGame(two, boundaries, logger) {
-    
+
+
+function AsteroidsGame(two, boundaries, logger) {    
 	// properties 
 	var player = null,
 		key = new Keys(),
-	    enemies = {},
-	    server = null,
-	    count = 0,
 	    spaceCount = 0;
 	
 	two.bind('update', function() {
@@ -47,7 +43,6 @@ function AsteroidsGame(two, boundaries, logger) {
 
 		// update the fps counter
 	    fps.Count();
-
 	});
 	
 	var createShip = function() {
@@ -95,11 +90,6 @@ function AsteroidsGame(two, boundaries, logger) {
 
 	var playerJoined = function (playerInfo) {
 	    logger.write(playerInfo.displayName + " has joined the game");
-
-	    var ship = createShip();
-	    var enemy = new Enemy(playerInfo, ship, two);
-
-	    enemies[playerInfo.guid] = enemy;
 	};
 
 	var playerDisconnected = function (playerDto) {
@@ -124,11 +114,14 @@ function AsteroidsGame(two, boundaries, logger) {
 	    enemy.updateFromDto(playerDto);
 	};
 	
+	var playerDisconnected = function (playerInfo) {
+	    debugger;
+	    logger.write(playerInfo.displayName + " has left the game");
+	};
+	
 	return {
 	    play: play,
-	    setConnector: setConnector,
 	    playerJoined: playerJoined,
-	    playerDisconnected: playerDisconnected,
-	    playerChange: playerChange
+	    playerDisconnected: playerDisconnected
 	};
 };

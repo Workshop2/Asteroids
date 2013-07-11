@@ -7,7 +7,7 @@ function Player(two, ship, boundaries) {
 		rotationSpeed = 0.04,
 		velocityDrag = 0.998,
 		rotationDrag = 0.940,
-        bulletVelocity = 2.5;
+        bulletVelocity = 4;
 		
 	// private members
 	var velocityX = 0,
