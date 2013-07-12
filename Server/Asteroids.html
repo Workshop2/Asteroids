@@ -22,72 +22,73 @@
     <script type="text/javascript" src="signalr/hubs"></script>
 
 </head>
-<body>
-    <div id="draw-shapes" style="background: black"></div>
-    <div id="info"></div>
-    <script type="text/javascript">
-        var elem = document.getElementById('draw-shapes');
-        var info = $('#info');
-        var twoParams = {
-            width: 640,
-            height: 480
-        };
-
-        var boundaries = {
-            width: {
-                max: twoParams.width + 15,
-                min: -15
-            },
-            height: {
-                max: twoParams.height + 15,
-                min: -15
-            }
-        };
-
-        var two = new Two(twoParams).appendTo(elem);
-        var logger = new Logger(info);
-
-        $(function () {
-
-            // setup connection
-            var connection = $.connection;
-            logger.write("Connecting...");
-
-            // generate the user
-            var user = new UserInfo();
-            logger.write("Username is " + user.displayName);
-
-            // create game
-            var game = new AsteroidsGame(two, boundaries, logger);
-            
-            var signedIn = function (userDetails) {
-                // start the game
-                game.play(userDetails);
-            };
-            
-            // events that listen for messages from the server
-            var eventHandlers = {
-                playerJoined: game.playerJoined,
-                playerDisconnected: game.playerDisconnected,
-                playerChange: game.playerChange,
-                signedIn: signedIn,
-                enemyBullet: game.enemyBullet
+    <body>
+        <div id="logo"></div>
+        <div id="draw-shapes" style="background: black"></div>
+        <div id="info"></div>
+        <script type="text/javascript">
+            var elem = document.getElementById('draw-shapes');
+            var info = $('#info');
+            var twoParams = {
+                width: 640,
+                height: 480
             };
 
-            // setup connector wrapper
-            var server = new ServerConnector(connection, user, eventHandlers, logger);
+            var boundaries = {
+                width: {
+                    max: twoParams.width + 15,
+                    min: -15
+                },
+                height: {
+                    max: twoParams.height + 15,
+                    min: -15
+                }
+            };
 
-            game.setConnector(server);
+            var two = new Two(twoParams).appendTo(elem);
+            var logger = new Logger(info);
 
-            // connect
-            $.connection.hub.start().done(function () {
-                logger.write("Connected...");
+            $(function () {
 
-                server.signIn();
-                logger.connect($.connection);
+                // setup connection
+                var connection = $.connection;
+                logger.write("Connecting...");
 
+                // generate the user
+                var user = new UserInfo();
+                logger.write("<b>Username is " + user.displayName+"<b/>");
+
+                // create game
+                var game = new AsteroidsGame(two, boundaries, logger);
+            
+                var signedIn = function (userDetails) {
+                    // start the game
+                    game.play(userDetails);
+                };
+            
+                // events that listen for messages from the server
+                var eventHandlers = {
+                    playerJoined: game.playerJoined,
+                    playerDisconnected: game.playerDisconnected,
+                    playerChange: game.playerChange,
+                    signedIn: signedIn,
+                    enemyBullet: game.enemyBullet
+                };
+
+                // setup connector wrapper
+                var server = new ServerConnector(connection, user, eventHandlers, logger);
+
+                game.setConnector(server);
+
+                // connect
+                $.connection.hub.start().done(function () {
+                    logger.write("Connected...");
+
+                    server.signIn();
+                    logger.connect($.connection);
+
+                });
             });
-        });
-    </script>
-</body>
+        </script>
+    </body>
 </html>
