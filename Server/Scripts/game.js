@@ -6,8 +6,8 @@
 function AsteroidsGame(two, boundaries, logger) {
 
     // consts
-    var updateRate = 5,
-        bulletRate = 10;
+    var bulletRate = 10,
+        updateRatio = 5;
 
     // properties 
     var player = null,
@@ -17,7 +17,8 @@ function AsteroidsGame(two, boundaries, logger) {
 	    count = 0,
 	    spaceCount = 0,
         playerState = new PlayerState(),
-        userInfo = null;
+        userInfo = null,
+        updateRate = 0; //changes depends on number of users
 
     two.bind('update', function () {
         // playerState alerts us when the currently pressed keys have changed
@@ -57,8 +58,9 @@ function AsteroidsGame(two, boundaries, logger) {
             spaceCount = 0;
 
         player.update();
-
-        if (count > updateRate || playerState.changed()) {
+        
+        var readyForUpdate = updateRate > 0 && count > updateRate;
+        if (readyForUpdate || playerState.changed()) {
             updatePlayer();
             count = 0;
         }
@@ -109,6 +111,13 @@ function AsteroidsGame(two, boundaries, logger) {
         }
     };
 
+    var updateSendRatio = function () {
+        var activeConnections = Object.keys(enemies).length;
+
+        // reduces the update rate when more players exist
+        updateRate = updateRatio * activeConnections;
+    };
+
     /*
         ----------- Connection stuff -----------
     */
@@ -123,6 +132,8 @@ function AsteroidsGame(two, boundaries, logger) {
         var enemy = new Enemy(playerInfo, ship, two);
 
         enemies[playerInfo.guid] = enemy;
+
+        updateSendRatio();
     };
 
     var playerDisconnected = function (playerDto) {
@@ -133,6 +144,10 @@ function AsteroidsGame(two, boundaries, logger) {
             return;
 
         enemy.destroy();
+
+        delete enemies[playerDto.guid];
+
+        updateSendRatio();
     };
 
     var updatePlayer = function () {
@@ -153,7 +168,6 @@ function AsteroidsGame(two, boundaries, logger) {
     };
 
     var sendBullet = function (bullet) {
-        debugger;
         var dto = bullet.generateDto();
         
         // apply the current user id
@@ -164,7 +178,6 @@ function AsteroidsGame(two, boundaries, logger) {
     };
 
     var enemyBullet = function(bullet) {
-        debugger;
         var enemy = enemies[bullet.pid];
         if (!enemy)
             return;
