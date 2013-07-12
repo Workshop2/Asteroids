@@ -165,7 +165,11 @@ function AsteroidsGame(two, boundaries, logger) {
 
     var enemyBullet = function(bullet) {
         debugger;
-        
+        var enemy = enemies[bullet.pid];
+        if (!enemy)
+            return;
+
+        enemy.shootBullet(bullet);
     };
 
     return {

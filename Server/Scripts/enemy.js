@@ -34,11 +34,16 @@
         return keys.indexOf(key) >= 0;
     };
 
+    var shootBullet = function(bullet) {
+        ship.fireFromDto(bullet);
+    };
+
     return {
         guid: userInfo.guid,
         ship: ship,
         destroy: destroy,
         updateFromDto: updateFromDto,
-        update: update
+        update: update,
+        shootBullet: shootBullet
     };
 }

@@ -51,6 +51,24 @@ function Player(two, ship, boundaries, logger, guid) {
         return bullet;
     };
 
+    var fireFromDto = function(bulletDto) {
+        shootCount++;
+        debugger;
+        var shipDetails = {
+            x: bulletDto.x,
+            y: bulletDto.y,
+            rotation: bulletDto.r,
+            velocityX: 0, // not currently used
+            velocityY: 0,
+            guid: bulletDto.id
+        };
+
+        var bullet = new Bullet(two, shipDetails, boundaries);
+        bullets.push(bullet);
+
+        return bullet;
+    };
+
     var update = function () {
         ship.translation.x += velocityX;
         ship.translation.y += velocityY;
@@ -138,6 +156,7 @@ function Player(two, ship, boundaries, logger, guid) {
         update: update,
         generateDto: generateDto,
         fire: fire,
-        updateFromDto: updateFromDto
+        updateFromDto: updateFromDto,
+        fireFromDto: fireFromDto
     };
 };
