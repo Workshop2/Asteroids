@@ -63,7 +63,7 @@
             
             var signedIn = function (userDetails) {
                 // start the game
-                game.play(userDetails.colour);
+                game.play(userDetails);
             };
             
             // events that listen for messages from the server
@@ -71,7 +71,8 @@
                 playerJoined: game.playerJoined,
                 playerDisconnected: game.playerDisconnected,
                 playerChange: game.playerChange,
-                signedIn: signedIn
+                signedIn: signedIn,
+                enemyBullet: game.enemyBullet
             };
 
             // setup connector wrapper

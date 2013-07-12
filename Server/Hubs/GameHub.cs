@@ -59,6 +59,11 @@ namespace Server
             Clients.AllExcept(this.Context.ConnectionId).playerChange(player);
         }
 
+        public void SendBullet(dynamic bullet)
+        {
+            Clients.AllExcept(this.Context.ConnectionId).enemyBullet(bullet);
+        }
+
         private static string RandomColour()
         {
             var random = new Random();

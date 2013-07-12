@@ -13,6 +13,10 @@ function ServerConnector(connection, userInfo, subscribers, logger) {
     var updatePlayer = function (player) {
         game.server.updatePlayer(player);
     };
+    
+    var sendBullet = function (bullet) {
+        game.server.sendBullet(bullet);
+    };
 
 
 
@@ -31,9 +35,11 @@ function ServerConnector(connection, userInfo, subscribers, logger) {
     game.client.playerJoined = subscribers.playerJoined;
     game.client.playerDisconnected = subscribers.playerDisconnected;
     game.client.playerChange = subscribers.playerChange;
+    game.client.enemyBullet = subscribers.enemyBullet;
 
     return {
         updatePlayer: updatePlayer,
-        signIn: signIn
+        signIn: signIn,
+        sendBullet: sendBullet
     };
 }

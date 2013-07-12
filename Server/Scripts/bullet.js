@@ -47,10 +47,20 @@
         two.remove(shape);
     };
 
+    var generateDto = function() {
+        return {
+            x: parseInt(shape.translation.x),
+            y: parseInt(shape.translation.y),
+            r: shape.rotation,
+            id: shipDetails.guid
+        };
+    };
+
     return {
         update: update,
         outOfBounds: outOfBounds,
         destroy: destroy,
-        shape: shape
+        shape: shape,
+        generateDto: generateDto
     };
 };

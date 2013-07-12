@@ -16,7 +16,8 @@ function AsteroidsGame(two, boundaries, logger) {
 	    server = null,
 	    count = 0,
 	    spaceCount = 0,
-        playerState = new PlayerState();
+        playerState = new PlayerState(),
+        userInfo = null;
 
     two.bind('update', function () {
         // playerState alerts us when the currently pressed keys have changed
@@ -44,8 +45,10 @@ function AsteroidsGame(two, boundaries, logger) {
         }
 
         if (key.isPressed(key.keyMap.space)) {
-            if (spaceCount == 0)
-                player.fire();
+            if (spaceCount == 0) {
+                var bullet = player.fire();
+                sendBullet(bullet);
+            }
 
             spaceCount++;
         }
@@ -56,11 +59,11 @@ function AsteroidsGame(two, boundaries, logger) {
         player.update();
 
         if (count > updateRate || playerState.changed()) {
-            updatePlayer(player.generateDto());
+            updatePlayer();
             count = 0;
         }
         count++;
-        
+
         updateEnemies();
 
         // update the fps counter
@@ -69,7 +72,7 @@ function AsteroidsGame(two, boundaries, logger) {
     });
 
     // used for creating the player and enemy ships
-    var createShip = function (colour) {
+    var createShip = function (colour, guid) {
         var height = 14,
 			width = 20;
 
@@ -90,12 +93,13 @@ function AsteroidsGame(two, boundaries, logger) {
         // position in center of screen
         var group = two.makeGroup(ship);
         group.translation.set(two.width / 2, two.height / 2);
-        debugger; 
-        return new Player(two, group, boundaries, logger);
+
+        return new Player(two, group, boundaries, logger, guid);
     };
 
-    var play = function (playerColour) {
-        player = player || createShip(playerColour);
+    var play = function (signedInDetails) {
+        userInfo = signedInDetails;
+        player = player || createShip(signedInDetails.colour, userInfo.guid);
         two.play();
     };
 
@@ -115,7 +119,7 @@ function AsteroidsGame(two, boundaries, logger) {
     var playerJoined = function (playerInfo) {
         logger.write(playerInfo.displayName + " has joined the game");
 
-        var ship = createShip(playerInfo.colour);
+        var ship = createShip(playerInfo.colour, playerInfo.guid);
         var enemy = new Enemy(playerInfo, ship, two);
 
         enemies[playerInfo.guid] = enemy;
@@ -131,12 +135,13 @@ function AsteroidsGame(two, boundaries, logger) {
         enemy.destroy();
     };
 
-    var updatePlayer = function (userDto) {
-        // simulate the buttons being pressed
-        // improves smoothness
+    var updatePlayer = function () {
+        var dto = player.generateDto();
+        
+        // simulate the buttons being pressed - improves smoothness
         // attach the currently pressed keys
-        userDto = $.extend(userDto, { keys: playerState.pressedKeys });
-        server.updatePlayer(userDto);
+        dto = $.extend(dto, { keys: playerState.pressedKeys });
+        server.updatePlayer(dto);
     };
 
     var playerChange = function (playerDto) {
@@ -147,11 +152,28 @@ function AsteroidsGame(two, boundaries, logger) {
         enemy.updateFromDto(playerDto);
     };
 
+    var sendBullet = function (bullet) {
+        debugger;
+        var dto = bullet.generateDto();
+        
+        // apply the current user id
+        dto = $.extend(dto, { pid: userInfo.guid });
+        server.sendBullet(dto);
+
+        updatePlayer();
+    };
+
+    var enemyBullet = function(bullet) {
+        debugger;
+        
+    };
+
     return {
         play: play,
         setConnector: setConnector,
         playerJoined: playerJoined,
         playerDisconnected: playerDisconnected,
-        playerChange: playerChange
+        playerChange: playerChange,
+        enemyBullet: enemyBullet
     };
 };

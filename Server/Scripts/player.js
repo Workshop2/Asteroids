@@ -1,6 +1,6 @@
 // Contains all of the logic for movement within the the game
 // Can pass any Two.js object in to give it ship movement
-function Player(two, ship, boundaries) {
+function Player(two, ship, boundaries, logger, guid) {
 
     // consts
     var moveSpeed = 0.05,
@@ -12,7 +12,8 @@ function Player(two, ship, boundaries) {
     // private members
     var velocityX = 0,
 		velocityY = 0,
-		velocityRotation = 0;
+		velocityRotation = 0,
+        shootCount = 0;
 
     var bullets = [];
 
@@ -33,16 +34,21 @@ function Player(two, ship, boundaries) {
     };
 
     var fire = function () {
+        shootCount++;
+        debugger;
         var shipDetails = {
             x: ship.translation.x,
             y: ship.translation.y,
             rotation: ship.rotation,
             velocityX: velocityX,
-            velocityY: velocityY
+            velocityY: velocityY,
+            guid: guid + "/" + shootCount
         };
 
         var bullet = new Bullet(two, shipDetails, boundaries);
         bullets.push(bullet);
+
+        return bullet;
     };
 
     var update = function () {
