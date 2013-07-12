@@ -31,6 +31,10 @@ function ServerConnector(connection, userInfo, subscribers, logger) {
         if (signedIn)
             subscribers.signedIn(a);
     };
+    
+    game.client.tooManyConnections = function (a) {
+        logger.write("Too many connections. Please try again later :)");
+    };
 
     game.client.playerJoined = subscribers.playerJoined;
     game.client.playerDisconnected = subscribers.playerDisconnected;

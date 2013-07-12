@@ -127,8 +127,8 @@ function Player(two, ship, boundaries, logger, guid) {
 
     var generateDto = function () {
         return {
-            x: parseInt(ship.translation.x), // returning int to help reduce the data size being transfered
-            y: parseInt(ship.translation.y),
+            x: ship.translation.x, // returning int to help reduce the data size being transfered
+            y: ship.translation.y,
             r: ship.rotation,
             vx: velocityX,
             vy: velocityY,

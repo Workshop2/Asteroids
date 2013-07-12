@@ -7,12 +7,19 @@ namespace Server
 {
     public class GameHub : Hub
     {
+        private const int MAX_CONNECTIONS = 6;
         private static readonly Dictionary<string, UserInfo> Users = new Dictionary<string, UserInfo>();
 
         public void SignIn(UserInfo userInfo)
         {
             UserInfo result = null;
             string connectionId = this.Context.ConnectionId;
+
+            if (Users.Count + 1 > MAX_CONNECTIONS)
+            {
+                Clients.Caller.tooManyConnections();
+                return;
+            }
 
             // only allow the same user to sign in once
             if (Users.ContainsKey(connectionId))
