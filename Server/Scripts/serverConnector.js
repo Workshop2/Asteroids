@@ -37,6 +37,10 @@ function ServerConnector(connection, userInfo, subscribers, logger) {
     game.client.playerChange = subscribers.playerChange;
     game.client.enemyBullet = subscribers.enemyBullet;
 
+    //connection.game.stateChanged(function () {
+    //    logger.write("Error, disconnected from game");
+    //});
+
     return {
         updatePlayer: updatePlayer,
         signIn: signIn,
