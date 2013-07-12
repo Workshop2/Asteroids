@@ -35,7 +35,6 @@ function Player(two, ship, boundaries, logger, guid) {
 
     var fire = function () {
         shootCount++;
-        debugger;
         var shipDetails = {
             x: ship.translation.x,
             y: ship.translation.y,
@@ -53,7 +52,6 @@ function Player(two, ship, boundaries, logger, guid) {
 
     var fireFromDto = function(bulletDto) {
         shootCount++;
-        debugger;
         var shipDetails = {
             x: bulletDto.x,
             y: bulletDto.y,
