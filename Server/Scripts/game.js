@@ -151,6 +151,9 @@ function AsteroidsGame(two, boundaries, logger) {
     };
 
     var updatePlayer = function () {
+        if (numberOfEnemies() < 1)
+            return;
+
         var dto = player.generateDto();
         
         // simulate the buttons being pressed - improves smoothness
@@ -168,6 +171,9 @@ function AsteroidsGame(two, boundaries, logger) {
     };
 
     var sendBullet = function (bullet) {
+        if (numberOfEnemies() < 1)
+            return;
+        
         var dto = bullet.generateDto();
         
         // apply the current user id
@@ -183,6 +189,10 @@ function AsteroidsGame(two, boundaries, logger) {
             return;
 
         enemy.shootBullet(bullet);
+    };
+
+    var numberOfEnemies = function() {
+        return Object.keys(enemies).length;
     };
 
     return {
