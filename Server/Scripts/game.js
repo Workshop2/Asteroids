@@ -96,7 +96,7 @@ function AsteroidsGame(two, boundaries, logger) {
         var group = two.makeGroup(ship);
         group.translation.set(two.width / 2, two.height / 2);
 
-        return new Player(two, group, boundaries, logger, guid);
+        return new Player(two, group, boundaries, logger, guid, colour);
     };
 
     var play = function (signedInDetails) {

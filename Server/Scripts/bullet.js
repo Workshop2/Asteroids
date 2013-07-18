@@ -8,7 +8,7 @@
         velocityX = /*shipDetails.velocityX +*/ moveSpeed,
         velocityY = /*shipDetails.velocityY +*/ moveSpeed;
 
-
+    shape.fill = shipDetails.colour;
     shape.rotation = shipDetails.rotation;
 
 
