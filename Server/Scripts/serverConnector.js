@@ -13,11 +13,14 @@ function ServerConnector(connection, userInfo, subscribers, logger) {
     var updatePlayer = function (player) {
         game.server.updatePlayer(player);
     };
-    
+
     var sendBullet = function (bullet) {
         game.server.sendBullet(bullet);
     };
 
+    var bulletDestroyed = function (bullet) {
+        game.server.bulletDestroyed(bullet);
+    };
 
 
 
@@ -40,6 +43,7 @@ function ServerConnector(connection, userInfo, subscribers, logger) {
     game.client.playerDisconnected = subscribers.playerDisconnected;
     game.client.playerChange = subscribers.playerChange;
     game.client.enemyBullet = subscribers.enemyBullet;
+    game.client.enemyBulletDestroyed = subscribers.enemyBulletDestroyed;
 
     //connection.game.stateChanged(function () {
     //    logger.write("Error, disconnected from game");
@@ -48,6 +52,7 @@ function ServerConnector(connection, userInfo, subscribers, logger) {
     return {
         updatePlayer: updatePlayer,
         signIn: signIn,
-        sendBullet: sendBullet
+        sendBullet: sendBullet,
+        bulletDestroyed: bulletDestroyed
     };
 }

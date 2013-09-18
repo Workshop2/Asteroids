@@ -34,8 +34,12 @@
         return keys.indexOf(key) >= 0;
     };
 
-    var shootBullet = function(bullet) {
-        ship.fireFromDto(bullet);
+    var shootBullet = function (bulletDto) {
+        ship.fireFromDto(bulletDto);
+    };
+
+    var destroyBullet = function(bulletDto) {
+
     };
 
     return {
@@ -44,6 +48,7 @@
         destroy: destroy,
         updateFromDto: updateFromDto,
         update: update,
-        shootBullet: shootBullet
+        shootBullet: shootBullet,
+        destroyBullet: destroyBullet
     };
 }
