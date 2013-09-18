@@ -58,11 +58,10 @@ function Player(two, ship, boundaries, logger, guid, colour) {
             rotation: bulletDto.r,
             velocityX: 0, // not currently used
             velocityY: 0,
-            guid: bulletDto.id,
             colour: colour
         };
 
-        var bullet = new Bullet(two, shipDetails, boundaries, logger);
+        var bullet = new Bullet(two, shipDetails, boundaries, logger, bulletDto.id);
         bullets.push(bullet);
 
         return bullet;
