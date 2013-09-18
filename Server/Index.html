@@ -60,17 +60,12 @@
             // create game
             var game = new AsteroidsGame(two, boundaries, logger);
 
-            var signedIn = function (userDetails) {
-                // start the game
-                game.play(userDetails);
-            };
-
             // events that listen for messages from the server
             var eventHandlers = {
                 playerJoined: game.playerJoined,
                 playerDisconnected: game.playerDisconnected,
                 playerChange: game.playerChange,
-                signedIn: signedIn,
+                signedIn: function (userDetails) { game.play(userDetails); }, // start the game
                 enemyBullet: game.enemyBullet
             };
 

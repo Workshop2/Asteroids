@@ -57,7 +57,7 @@ function AsteroidsGame(two, boundaries, logger) {
         if (spaceCount > bulletRate)
             spaceCount = 0;
 
-        player.update();
+        player.update(enemies);
         
         var readyForUpdate = updateRate > 0 && count > updateRate;
         if (readyForUpdate || playerState.changed()) {
