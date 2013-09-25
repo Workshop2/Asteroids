@@ -1,6 +1,4 @@
-﻿/// <reference path="enemy.js" />
-/// <reference path="logger.js" />
-function Bullet(two, shipDetails, boundaries, logger, id) {
+﻿function Bullet(two, shipDetails, boundaries) {
     
     // consts
     var moveSpeed = 4.5;
@@ -43,19 +41,6 @@ function Bullet(two, shipDetails, boundaries, logger, id) {
         return result;
     };
 
-    // Has the bullet collided with an enemy
-    var collisionDetected = function (enemy) {
-        var twoObject = enemy.ship.ship;
-        var distance = shape.translation.distanceTo(twoObject.translation);
-        var detected = distance < 10;
-
-        if (detected) {
-            logger.write("Collision detected with player " + enemy.guid);
-        }
-
-        return detected;
-    };
-
     var destroy = function () {
         shape.translation.x = -100;
         shape.translation.y = -100;
@@ -67,7 +52,7 @@ function Bullet(two, shipDetails, boundaries, logger, id) {
             x: parseInt(shape.translation.x),
             y: parseInt(shape.translation.y),
             r: shape.rotation,
-            id: id
+            id: shipDetails.guid
         };
     };
 
@@ -76,7 +61,6 @@ function Bullet(two, shipDetails, boundaries, logger, id) {
         outOfBounds: outOfBounds,
         destroy: destroy,
         shape: shape,
-        generateDto: generateDto,
-        collisionDetected: collisionDetected
+        generateDto: generateDto
     };
 };

@@ -41,10 +41,11 @@ function Player(two, ship, boundaries, logger, guid, colour) {
             rotation: ship.rotation,
             velocityX: velocityX,
             velocityY: velocityY,
+            guid: guid + "/" + shootCount,
             colour: colour
         };
 
-        var bullet = new Bullet(two, shipDetails, boundaries, logger, shootCount);
+        var bullet = new Bullet(two, shipDetails, boundaries);
         bullets.push(bullet);
 
         return bullet;
@@ -62,13 +63,13 @@ function Player(two, ship, boundaries, logger, guid, colour) {
             colour: colour
         };
 
-        var bullet = new Bullet(two, shipDetails, boundaries, logger);
+        var bullet = new Bullet(two, shipDetails, boundaries);
         bullets.push(bullet);
 
         return bullet;
     };
 
-    var update = function (enemies) {
+    var update = function () {
         ship.translation.x += velocityX;
         ship.translation.y += velocityY;
 
@@ -80,29 +81,18 @@ function Player(two, ship, boundaries, logger, guid, colour) {
         velocityRotation *= rotationDrag;
 
         wrapShip();
-        updateBullets(enemies);
+        updateBullets();
     };
 
-    var updateBullets = function (enemies) {
+    var updateBullets = function () {
         var removedItems = [];
 
         for (var i = 0; i < bullets.length; i++) {
             var bullet = bullets[i];
-            var destroy = false;
 
             bullet.update();
 
             if (bullet.outOfBounds()) {
-                destroy = true;
-            }
-
-            for (var enemy in enemies) {
-                if (bullet.collisionDetected(enemies[enemy])) {
-                    destroy = true;
-                }
-            }
-            
-            if (destroy) {
                 bullet.destroy();
                 removedItems.push(bullet);
             }
