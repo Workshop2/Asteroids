@@ -101,10 +101,7 @@ function AsteroidsGame(two, boundaries, logger) {
 
     var play = function (signedInDetails) {
         userInfo = signedInDetails;
-        
         player = player || createShip(signedInDetails.colour, userInfo.guid);
-        player.eventHandlers.bulletDestroyed = bulletDestroyed;
-        
         two.play();
     };
 
@@ -186,31 +183,12 @@ function AsteroidsGame(two, boundaries, logger) {
         updatePlayer();
     };
 
-    var enemyBullet = function (bulletDto) {
-        var enemy = enemies[bulletDto.pid];
+    var enemyBullet = function(bullet) {
+        var enemy = enemies[bullet.pid];
         if (!enemy)
             return;
 
-        enemy.shootBullet(bulletDto);
-    };
-
-    var bulletDestroyed = function (bullet) {
-        if (numberOfEnemies() < 1)
-            return;
-
-        var dto = bullet.generateDto();
-
-        // apply the current user id
-        dto = $.extend(dto, { pid: userInfo.guid });
-        server.bulletDestroyed(dto);
-    };
-
-    var enemyBulletDestroyed = function (bulletDto) {
-        var enemy = enemies[bulletDto.pid];
-        if (!enemy)
-            return;
-
-        enemy.destroyBullet(bulletDto);
+        enemy.shootBullet(bullet);
     };
 
     var numberOfEnemies = function() {
@@ -223,7 +201,6 @@ function AsteroidsGame(two, boundaries, logger) {
         playerJoined: playerJoined,
         playerDisconnected: playerDisconnected,
         playerChange: playerChange,
-        enemyBullet: enemyBullet,
-        enemyBulletDestroyed: enemyBulletDestroyed
+        enemyBullet: enemyBullet
     };
 };

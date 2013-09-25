@@ -17,10 +17,6 @@ function Player(two, ship, boundaries, logger, guid, colour) {
 
     var bullets = [];
 
-    var eventHandlers = {
-        bulletDestroyed: function (bullet) { }
-    };
-
     var leftTurn = function () {
         velocityRotation = -rotationSpeed;
     };
@@ -113,9 +109,11 @@ function Player(two, ship, boundaries, logger, guid, colour) {
 
         for (var j = 0; j < removedItems.length; j++) {
             var oldBullet = removedItems[j];
-            eventHandlers.bulletDestroyed(oldBullet);
+            var index = bullets.indexOf(oldBullet);
 
-            destroyBullet(oldBullet);
+            if (index >= 0) {
+                bullets.splice(index, 1);
+            }
         }
     };
 
@@ -159,25 +157,6 @@ function Player(two, ship, boundaries, logger, guid, colour) {
         velocityRotation = dto.vR;
     };
 
-    var destroyBullet = function (bullet) {
-        var index = bullets.indexOf(bullet);
-
-        if (index >= 0) {
-            bullets.splice(index, 1);
-        }
-    };
-
-    var destroyBulletDto = function(bulletDto) {
-        for (var i = 0; i < bullets.length; i++) {
-            var bullet = bullets[i];
-            
-            if (bullet.id == bulletDto.id) {
-                destroyBullet(bullet);
-                break;
-            }
-        }
-    };
-
     return {
         ship: ship,
         leftTurn: leftTurn,
@@ -187,8 +166,6 @@ function Player(two, ship, boundaries, logger, guid, colour) {
         generateDto: generateDto,
         fire: fire,
         updateFromDto: updateFromDto,
-        fireFromDto: fireFromDto,
-        eventHandlers: eventHandlers,
-        destroyBulletDto: destroyBulletDto
+        fireFromDto: fireFromDto
     };
 };

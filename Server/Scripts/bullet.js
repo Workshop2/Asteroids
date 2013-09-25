@@ -77,7 +77,6 @@ function Bullet(two, shipDetails, boundaries, logger, id) {
         destroy: destroy,
         shape: shape,
         generateDto: generateDto,
-        collisionDetected: collisionDetected,
-        id: id
+        collisionDetected: collisionDetected
     };
 };

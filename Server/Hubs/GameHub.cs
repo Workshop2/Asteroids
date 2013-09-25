@@ -71,11 +71,6 @@ namespace Server
             Clients.AllExcept(this.Context.ConnectionId).enemyBullet(bullet);
         }
 
-        public void BulletDestroyed(dynamic bullet)
-        {
-            Clients.AllExcept(this.Context.ConnectionId).enemyBulletDestroyed(bullet);
-        }
-
         private static string RandomColour()
         {
             var random = new Random();
