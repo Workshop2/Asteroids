@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Security;
-using System.Web.SessionState;
 using System.Web.Routing;
-using Microsoft.AspNet.SignalR;
+using Server.App_Start;
 
 namespace Server
 {
@@ -14,8 +9,7 @@ namespace Server
 
         protected void Application_Start(object sender, EventArgs e)
         {
-            // Register the default hubs route: ~/signalr/hubs
-            RouteTable.Routes.MapHubs();
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
 
         protected void Session_Start(object sender, EventArgs e)
