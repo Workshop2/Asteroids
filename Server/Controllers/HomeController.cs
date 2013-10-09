@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Reflection;
+using System.Web.Mvc;
 using Server.Models;
 
 namespace Server.Controllers
@@ -7,7 +8,10 @@ namespace Server.Controllers
     {
          public ActionResult Index()
          {
-             return View(new AsteroidsViewModel());
+             int minorVersion = Assembly.GetExecutingAssembly().GetName().Version.MinorRevision;
+             AsteroidsViewModel model = new AsteroidsViewModel(minorVersion);
+
+             return View(model);
          }
     }
 }
