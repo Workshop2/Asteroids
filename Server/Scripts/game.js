@@ -57,8 +57,8 @@ function AsteroidsGame(two, boundaries, logger) {
         if (spaceCount > bulletRate)
             spaceCount = 0;
 
-        player.update();
-        
+        player.update(enemies);
+
         var readyForUpdate = updateRate > 0 && count > updateRate;
         if (readyForUpdate || playerState.changed()) {
             updatePlayer();
@@ -155,7 +155,7 @@ function AsteroidsGame(two, boundaries, logger) {
             return;
 
         var dto = player.generateDto();
-        
+
         // simulate the buttons being pressed - improves smoothness
         // attach the currently pressed keys
         dto = $.extend(dto, { keys: playerState.pressedKeys });
@@ -173,9 +173,9 @@ function AsteroidsGame(two, boundaries, logger) {
     var sendBullet = function (bullet) {
         if (numberOfEnemies() < 1)
             return;
-        
+
         var dto = bullet.generateDto();
-        
+
         // apply the current user id
         dto = $.extend(dto, { pid: userInfo.guid });
         server.sendBullet(dto);
@@ -183,7 +183,7 @@ function AsteroidsGame(two, boundaries, logger) {
         updatePlayer();
     };
 
-    var enemyBullet = function(bullet) {
+    var enemyBullet = function (bullet) {
         var enemy = enemies[bullet.pid];
         if (!enemy)
             return;
@@ -191,7 +191,7 @@ function AsteroidsGame(two, boundaries, logger) {
         enemy.shootBullet(bullet);
     };
 
-    var numberOfEnemies = function() {
+    var numberOfEnemies = function () {
         return Object.keys(enemies).length;
     };
 
