@@ -4,16 +4,16 @@
     var loggerHub = null;
     var connected = false;
 
-    var write = function (message) {
+    var write = function (message, pushToRemote) {
+        pushToRemote = typeof pushToRemote !== 'undefined' ? pushToRemote : true;
         console.log(message);
 
-        if (!connected)
-        {
-            logQueue.push(message);
-        }
-        else
-        {
-            loggerHub.server.info(message);
+        if (pushToRemote) {
+            if (!connected) {
+                logQueue.push(message);
+            } else {
+                loggerHub.server.info(message);
+            }
         }
 
         if (!display)

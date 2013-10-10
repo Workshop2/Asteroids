@@ -50,7 +50,7 @@ function Bullet(two, shipDetails, boundaries, logger, id) {
         var detected = distance < 10;
 
         if (detected) {
-            logger.write("Collision detected with player " + enemy.guid);
+            logger.write("Collision detected with player " + enemy.guid, false);
         }
 
         return detected;
