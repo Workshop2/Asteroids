@@ -136,7 +136,6 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Hubs\LogEntriesHub.cs" />
     <Compile Include="Hubs\GameHub.cs" />
     <Compile Include="Global.asax.cs">
