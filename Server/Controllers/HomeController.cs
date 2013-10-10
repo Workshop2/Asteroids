@@ -9,7 +9,8 @@ namespace Server.Controllers
          public ActionResult Index()
          {
              int minorVersion = Assembly.GetExecutingAssembly().GetName().Version.MinorRevision;
-             AsteroidsViewModel model = new AsteroidsViewModel(minorVersion);
+             string scriptsPath = Url.Content("~/Scripts/");
+             AsteroidsViewModel model = new AsteroidsViewModel(minorVersion, scriptsPath);
 
              return View(model);
          }

@@ -3,16 +3,19 @@
     public class AsteroidsViewModel
     {
         private readonly int _minorVersion;
-        public string VersionPostFix { get { return "?v=" + _minorVersion; } }
+        private readonly string _scriptsPath;
+        //public string VersionPostFix { get { return "?v=" + _minorVersion; } }
 
-        public AsteroidsViewModel(int minorVersion)
+        public AsteroidsViewModel(int minorVersion, string scriptsPath)
         {
             _minorVersion = minorVersion;
+            _scriptsPath = scriptsPath;
         }
 
-        public string AppendVersion(string thing)
+        public string GetScript(string scriptName)
         {
-            throw new System.NotImplementedException();
+            return string.Format("{0}{1}?v={2}", _scriptsPath, scriptName, _minorVersion);
         }
+
     }
 }
