@@ -99,9 +99,10 @@ function Player(two, ship, boundaries, logger, guid, colour) {
                 destroy = true;
             }
 
-            for (var enemy in enemies) {
-                if (bullet.collisionDetected(enemies[enemy])) {
+            for (var enemyGuid in enemies) {
+                if (bullet.collisionDetected(enemies[enemyGuid])) {
                     destroy = true;
+                    bullet.setVictim(enemyGuid);
                 }
             }
 

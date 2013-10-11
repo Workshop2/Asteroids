@@ -8,7 +8,8 @@ function Bullet(two, shipDetails, boundaries, logger, id) {
     // properties
     var shape = two.makeCircle(shipDetails.x, shipDetails.y, 2),
         velocityX = /*shipDetails.velocityX +*/ moveSpeed,
-        velocityY = /*shipDetails.velocityY +*/ moveSpeed;
+        velocityY = /*shipDetails.velocityY +*/ moveSpeed,
+        victim = null;
 
     shape.fill = shipDetails.colour;
     shape.rotation = shipDetails.rotation;
@@ -67,8 +68,13 @@ function Bullet(two, shipDetails, boundaries, logger, id) {
             x: parseInt(shape.translation.x),
             y: parseInt(shape.translation.y),
             r: shape.rotation,
-            id: id
+            id: id,
+            victim: victim
         };
+    };
+
+    var setVictim = function(newVictim) {
+        victim = newVictim;
     };
 
     return {
@@ -77,6 +83,7 @@ function Bullet(two, shipDetails, boundaries, logger, id) {
         destroy: destroy,
         shape: shape,
         generateDto: generateDto,
-        collisionDetected: collisionDetected
+        collisionDetected: collisionDetected,
+        setVictim: setVictim
     };
 };

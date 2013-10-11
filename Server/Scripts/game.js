@@ -206,6 +206,10 @@ function AsteroidsGame(two, boundaries, logger) {
     };
 
     var enemyBulletDestroyed = function (bulletDto) {
+        if (bulletDto.victim == userInfo.guid) {
+            logger.write("YOU GOT HIT");
+        }
+
         var enemy = enemies[bulletDto.pid];
         if (!enemy)
             return;
