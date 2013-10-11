@@ -56,7 +56,7 @@ namespace Server
                 Clients.All.playerDisconnected(Users[connectionId]);
                 Users.Remove(Context.ConnectionId);
             }
-            
+
             return base.OnDisconnected();
         }
 
@@ -69,6 +69,11 @@ namespace Server
         public void SendBullet(dynamic bullet)
         {
             Clients.AllExcept(this.Context.ConnectionId).enemyBullet(bullet);
+        }
+
+        public void BulletDestroyed(dynamic bullet)
+        {
+            Clients.AllExcept(this.Context.ConnectionId).enemyBulletDestroyed(bullet);
         }
 
         private static string RandomColour()
