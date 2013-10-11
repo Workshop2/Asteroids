@@ -7,7 +7,7 @@ function AsteroidsGame(two, boundaries, logger) {
 
     // consts
     var bulletRate = 10,
-        updateRatio = 5;
+        updateRatio = 1;
 
     // properties 
     var player = null,
@@ -206,7 +206,8 @@ function AsteroidsGame(two, boundaries, logger) {
     };
 
     var enemyBulletDestroyed = function (bulletDto) {
-        if (bulletDto.victim == userInfo.guid) {
+        var bulletVictim = bulletDto.v;
+        if (bulletVictim == userInfo.guid) {
             logger.write("YOU GOT HIT");
         }
 

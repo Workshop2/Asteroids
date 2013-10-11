@@ -39,7 +39,7 @@
     };
 
     var destroyBullet = function (bulletDto) {
-        
+        ship.destroyBulletDto(bulletDto);
     };
 
     return {

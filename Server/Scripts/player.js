@@ -107,7 +107,6 @@ function Player(two, ship, boundaries, logger, guid, colour) {
             }
 
             if (destroy) {
-                bullet.destroy();
                 removedItems.push(bullet);
             }
         }
@@ -162,6 +161,7 @@ function Player(two, ship, boundaries, logger, guid, colour) {
 
     var destroyBullet = function (bullet) {
         var index = bullets.indexOf(bullet);
+        bullet.destroy();
 
         if (index >= 0) {
             bullets.splice(index, 1);

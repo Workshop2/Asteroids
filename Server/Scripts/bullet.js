@@ -69,7 +69,7 @@ function Bullet(two, shipDetails, boundaries, logger, id) {
             y: parseInt(shape.translation.y),
             r: shape.rotation,
             id: id,
-            victim: victim
+            v: victim
         };
     };
 

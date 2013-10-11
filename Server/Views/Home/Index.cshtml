@@ -5,8 +5,8 @@
     <title>Asteroids Online</title>
     <link href="~/Styles/main.css" rel="stylesheet" type="text/css" />
 
-    <script type="text/javascript" src="~/Scripts/jquery-1.8.2.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/jquery.signalR-1.0.0.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-1.6.4.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.signalR-1.1.3.min.js"></script>
 
     <script type="text/javascript" src="~/Scripts/two.js"></script>
     <script type="text/javascript" src="~/Scripts/fps.js"></script>
@@ -59,12 +59,7 @@
 
             // create game
             var game = new AsteroidsGame(two, boundaries, logger);
-
-            var signedIn = function (userDetails) {
-                // start the game
-                game.play(userDetails);
-            };
-
+            
             // events that listen for messages from the server
             var eventHandlers = {
                 playerJoined: game.playerJoined,
@@ -81,7 +76,7 @@
             game.setConnector(server);
 
             // connect
-            $.connection.hub.start().done(function () {
+            $.connection.hub.start({ transport: 'webSockets' }).done(function () {
                 logger.write("Connected...");
 
                 server.signIn();
