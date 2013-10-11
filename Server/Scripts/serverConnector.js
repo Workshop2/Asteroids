@@ -36,7 +36,7 @@ function ServerConnector(connection, userInfo, subscribers, logger) {
             subscribers.signedIn(a);
     };
 
-    game.client.tooManyConnections = function (a) {
+    game.client.tooManyConnections = function () {
         logger.write("Too many connections. Please try again later :)");
     };
 
@@ -45,10 +45,6 @@ function ServerConnector(connection, userInfo, subscribers, logger) {
     game.client.playerChange = subscribers.playerChange;
     game.client.enemyBullet = subscribers.enemyBullet;
     game.client.enemyBulletDestroyed = subscribers.enemyBulletDestroyed;
-
-    //connection.game.stateChanged(function () {
-    //    logger.write("Error, disconnected from game");
-    //});
 
     return {
         updatePlayer: updatePlayer,

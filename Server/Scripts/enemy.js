@@ -1,4 +1,4 @@
-﻿function Enemy(userInfo, ship, two) {
+﻿function Enemy(userInfo, ship) {
     var keys = [],
         keyMap = new Keys().keyMap;
 

@@ -125,7 +125,7 @@ function AsteroidsGame(two, boundaries, logger) {
         logger.write(playerInfo.displayName + " has joined the game");
 
         var ship = createShip(playerInfo.colour, playerInfo.guid);
-        var enemy = new Enemy(playerInfo, ship, two);
+        var enemy = new Enemy(playerInfo, ship);
 
         enemies[playerInfo.guid] = enemy;
     };

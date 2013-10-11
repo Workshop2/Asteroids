@@ -18,7 +18,7 @@ function Player(two, ship, boundaries, logger, guid, colour) {
     var bullets = [];
 
     var eventHandlers = {
-        bulletDestroyed: function (bullet) { }
+        bulletDestroyed: function () { }
     };
 
     var leftTurn = function () {
@@ -91,22 +91,22 @@ function Player(two, ship, boundaries, logger, guid, colour) {
 
         for (var i = 0; i < bullets.length; i++) {
             var bullet = bullets[i];
-            var destroy = false;
+            var shouldDestroy = false;
 
             bullet.update();
 
             if (bullet.outOfBounds()) {
-                destroy = true;
+                shouldDestroy = true;
             }
 
             for (var enemyGuid in enemies) {
                 if (bullet.collisionDetected(enemies[enemyGuid])) {
-                    destroy = true;
+                    shouldDestroy = true;
                     bullet.setVictim(enemyGuid);
                 }
             }
 
-            if (destroy) {
+            if (shouldDestroy) {
                 removedItems.push(bullet);
             }
         }
