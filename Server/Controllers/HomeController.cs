@@ -7,9 +7,10 @@ namespace Server.Controllers
     {
          public ActionResult Index()
          {
-             AsteroidsViewModel model = new AsteroidsViewModel();
+             //AsteroidsViewModel model = new AsteroidsViewModel();
 
-             return View(model);
+             //return View(model);
+             return Redirect("http://asteroids.cloudapp.net");
          }
     }
 }
