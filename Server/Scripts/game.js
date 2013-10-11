@@ -105,7 +105,8 @@ function AsteroidsGame(two, boundaries, logger) {
         player = player || createShip(signedInDetails.colour, userInfo.guid);
         player.eventHandlers.bulletDestroyed = bulletDestroyed;
 
-        two.play();
+        //two.play();
+        setInterval(function () { two.update(); }, 1000 / 60);
     };
 
     var updateEnemies = function () {
@@ -115,10 +116,10 @@ function AsteroidsGame(two, boundaries, logger) {
     };
 
     var updateSendRatio = function () {
-        var activeConnections = Object.keys(enemies).length;
+        //var activeConnections = Object.keys(enemies).length;
 
         // reduces the update rate when more players exist
-        updateRate = updateRatio * activeConnections;
+        //updateRate = updateRatio * activeConnections;
     };
 
     /*

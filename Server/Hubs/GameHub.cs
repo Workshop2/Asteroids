@@ -9,7 +9,7 @@ namespace Server
 {
     public class GameHub : Hub
     {
-        private const int MAX_CONNECTIONS = 6;
+        private const int MAX_CONNECTIONS = 10;
         private static readonly Dictionary<string, UserInfo> Users = new Dictionary<string, UserInfo>();
 
         public void SignIn(UserInfo userInfo)
