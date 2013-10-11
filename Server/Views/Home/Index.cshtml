@@ -76,7 +76,7 @@
             game.setConnector(server);
 
             // connect
-            $.connection.hub.start({ transport: 'webSockets' }).done(function () {
+            $.connection.hub.start().done(function () {
                 logger.write("Connected...");
 
                 server.signIn();

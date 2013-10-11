@@ -29,6 +29,7 @@ function ServerConnector(connection, userInfo, subscribers, logger) {
     */
     game.client.signInComplete = function (a) {
         logger.write("Signed in :)");
+        logger.write("Connected via " + a.connectionType);
 
         var signedIn = subscribers.signedIn;
         if (signedIn)

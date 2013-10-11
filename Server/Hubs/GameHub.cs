@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 
 namespace Server
 {
@@ -38,7 +40,8 @@ namespace Server
                 {
                     displayName = userInfo.displayName,
                     colour = RandomColour(),
-                    guid = connectionId
+                    guid = connectionId,
+                    connectionType = GetConnectionType(HttpContext.Current)
                 };
                 Users.Add(connectionId, result);
 
@@ -46,6 +49,16 @@ namespace Server
             }
 
             Clients.Caller.signInComplete(result);
+        }
+
+        private string GetConnectionType(HttpContext context)
+        {
+            if (context.IsWebSocketRequest)
+                return "WebSocket";
+            if (context.IsWebSocketRequestUpgrading)
+                return "WebSocket (Upgrading)";
+
+            return "Long polling";
         }
 
         public override Task OnDisconnected()
@@ -88,5 +101,6 @@ namespace Server
         public string displayName { get; set; }
         public string guid { get; set; }
         public string colour { get; set; }
+        public string connectionType { get; set; }
     }
 }
