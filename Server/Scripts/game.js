@@ -7,7 +7,7 @@ function AsteroidsGame(two, boundaries, logger) {
 
     // consts
     var bulletRate = 10,
-        updateRatio = 1;
+        updateRatio = 4;
 
     // properties 
     var player = null,

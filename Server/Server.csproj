@@ -124,6 +124,8 @@
     <Content Include="logo.png" />
     <Content Include="Scripts\bullet.js" />
     <Content Include="Scripts\enemy.js" />
+    <None Include="Properties\PublishProfiles\AsteroidsFtp.pubxml" />
+    <None Include="Properties\PublishProfiles\AsteroidsWebDeploy.pubxml" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
