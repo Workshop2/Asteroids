@@ -6,8 +6,7 @@
 function AsteroidsGame(two, boundaries, logger) {
 
     // consts
-    var bulletRate = 10,
-        updateRatio = 4;
+    var bulletRate = 10;
 
     // properties 
     var player = null,
@@ -115,13 +114,6 @@ function AsteroidsGame(two, boundaries, logger) {
         }
     };
 
-    var updateSendRatio = function () {
-        //var activeConnections = Object.keys(enemies).length;
-
-        // reduces the update rate when more players exist
-        //updateRate = updateRatio * activeConnections;
-    };
-
     /*
         ----------- Connection stuff -----------
     */
@@ -136,8 +128,6 @@ function AsteroidsGame(two, boundaries, logger) {
         var enemy = new Enemy(playerInfo, ship, two);
 
         enemies[playerInfo.guid] = enemy;
-
-        updateSendRatio();
     };
 
     var playerDisconnected = function (playerDto) {
@@ -150,8 +140,6 @@ function AsteroidsGame(two, boundaries, logger) {
         enemy.destroy();
 
         delete enemies[playerDto.guid];
-
-        updateSendRatio();
     };
 
     var updatePlayer = function () {

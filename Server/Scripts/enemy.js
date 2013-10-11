@@ -2,8 +2,8 @@
     var keys = [],
         keyMap = new Keys().keyMap;
 
-    var destroy = function() {
-        two.remove(ship.ship);
+    var destroy = function () {
+        ship.destroy();
     };
 
     var updateFromDto = function (dto) {

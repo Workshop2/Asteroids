@@ -179,6 +179,18 @@ function Player(two, ship, boundaries, logger, guid, colour) {
         }
     };
 
+    var destroy = function () {
+        for (var i = 0; i < bullets.length; i++) {
+            var bullet = bullets[i];
+
+            // we dont care about splicing the list, just kill all bullets
+            bullet.destroy();
+        }
+
+        // remove ship element
+        two.remove(ship);
+    };
+
     return {
         ship: ship,
         leftTurn: leftTurn,
@@ -190,6 +202,7 @@ function Player(two, ship, boundaries, logger, guid, colour) {
         updateFromDto: updateFromDto,
         fireFromDto: fireFromDto,
         eventHandlers: eventHandlers,
-        destroyBulletDto: destroyBulletDto
+        destroyBulletDto: destroyBulletDto,
+        destroy: destroy
     };
 };
