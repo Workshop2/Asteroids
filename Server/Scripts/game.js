@@ -1,16 +1,14 @@
 /// <reference path="player.js" />
-/// <reference path="keys.js" />
 /// <reference path="enemy.js" />
 /// <reference path="fps.js" />
 /// <reference path="playerState.js" />
-function AsteroidsGame(two, boundaries, logger) {
+function AsteroidsGame(two, boundaries, logger, keys) {
 
     // consts
     var bulletRate = 10;
 
     // properties 
     var player = null,
-		key = new Keys(),
 	    enemies = {},
 	    server = null,
 	    count = 0,
@@ -23,28 +21,22 @@ function AsteroidsGame(two, boundaries, logger) {
         // playerState alerts us when the currently pressed keys have changed
         // this will initiate an emergency update (sends to server)
 
-        if (key.isPressed(key.keyMap.left)) {
+        playerState.updateKeyState(keys.keyMap.left, keys.isPressed(keys.keyMap.left));
+        if (keys.isPressed(keys.keyMap.left)) {
             player.leftTurn();
-            playerState.keyPressed(key.keyMap.left);
-        } else {
-            playerState.keyNotPressed(key.keyMap.left);
         }
 
-        if (key.isPressed(key.keyMap.right)) {
+        playerState.updateKeyState(keys.keyMap.right, keys.isPressed(keys.keyMap.right));
+        if (keys.isPressed(keys.keyMap.right)) {
             player.rightTurn();
-            playerState.keyPressed(key.keyMap.right);
-        } else {
-            playerState.keyNotPressed(key.keyMap.right);
         }
 
-        if (key.isPressed(key.keyMap.up)) {
+        playerState.updateKeyState(keys.keyMap.up, keys.isPressed(keys.keyMap.up));
+        if (keys.isPressed(keys.keyMap.up)) {
             player.accelerate();
-            playerState.keyPressed(key.keyMap.up);
-        } else {
-            playerState.keyNotPressed(key.keyMap.up);
         }
 
-        if (key.isPressed(key.keyMap.space)) {
+        if (keys.isPressed(keys.keyMap.space)) {
             if (spaceCount == 0) {
                 var bullet = player.fire();
                 sendBullet(bullet);
@@ -128,6 +120,9 @@ function AsteroidsGame(two, boundaries, logger) {
         var enemy = new Enemy(playerInfo, ship);
 
         enemies[playerInfo.guid] = enemy;
+
+        // send our current position
+        updatePlayer();
     };
 
     var playerDisconnected = function (playerDto) {

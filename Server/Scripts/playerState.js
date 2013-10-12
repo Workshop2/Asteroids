@@ -2,6 +2,14 @@
     var pressedKeys = [],
         stateHasChanged = false;
 
+    var updateKeyState = function (key, pressed) {
+        if (pressed) {
+            keyPressed(key);
+        } else {
+            keyNotPressed(key);
+        }
+    };
+
     var keyPressed = function (key) {
         var keyIndex = pressedKeys.indexOf(key);
 
@@ -19,12 +27,12 @@
             pressedKeys.splice(keyIndex, 1);
         }
     };
-    
-    var changed = function() {
+
+    var changed = function () {
         return stateHasChanged;
     };
 
-    var reset = function() {
+    var reset = function () {
         stateHasChanged = false;
     };
 
@@ -33,6 +41,7 @@
         reset: reset,
         keyPressed: keyPressed,
         keyNotPressed: keyNotPressed,
-        pressedKeys: pressedKeys
+        pressedKeys: pressedKeys,
+        updateKeyState: updateKeyState
     };
 }

@@ -1,4 +1,4 @@
-function Keys() {
+function Keys(doc) {
 	var pressedKeys = [];
 	var ignoreKeys = [];
 		
@@ -37,6 +37,10 @@ function Keys() {
 	var ignoreKey = function(key) {
 		return ignoreKeys.indexOf(key) >= 0;
 	};
+
+    var reset = function() {
+        pressedKeys = [];
+    };
 	
 	var keyMap = {
 		up: 38,
@@ -46,8 +50,8 @@ function Keys() {
         space: 32
 	};
 	
-	$(document).keydown(keyDown);
-	$(document).keyup(keyUp);
+	doc.keydown(keyDown);
+	doc.keyup(keyUp);
 	
 	// ignore the F keys
 	for(var i = 112; i <= 123; i++) {
@@ -57,6 +61,7 @@ function Keys() {
 	return {
 		keyMap: keyMap,
 		isPressed: isPressed,
-		ignoreKeys: ignoreKeys
+		ignoreKeys: ignoreKeys,
+		reset: reset
 	};
 };

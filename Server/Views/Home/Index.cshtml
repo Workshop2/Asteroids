@@ -57,8 +57,13 @@
             var user = new UserInfo();
             logger.write("<b>Username is " + user.displayName + "<b/>");
 
+            var keys = new Keys($(document));
+            
+            // resets the currently pressed keys when window focus is lost
+            window.onpageshow = window.onpagehide = window.onfocus = window.onblur = keys.reset;
+
             // create game
-            var game = new AsteroidsGame(two, boundaries, logger);
+            var game = new AsteroidsGame(two, boundaries, logger, keys);
             
             // events that listen for messages from the server
             var eventHandlers = {
