@@ -21,21 +21,10 @@ function AsteroidsGame(two, boundaries, logger, keys) {
         // playerState alerts us when the currently pressed keys have changed
         // this will initiate an emergency update (sends to server)
 
-        playerState.updateKeyState(keys.keyMap.left, keys.isPressed(keys.keyMap.left));
-        if (keys.isPressed(keys.keyMap.left)) {
-            player.leftTurn();
-        }
-
-        playerState.updateKeyState(keys.keyMap.right, keys.isPressed(keys.keyMap.right));
-        if (keys.isPressed(keys.keyMap.right)) {
-            player.rightTurn();
-        }
-
-        playerState.updateKeyState(keys.keyMap.up, keys.isPressed(keys.keyMap.up));
-        if (keys.isPressed(keys.keyMap.up)) {
-            player.accelerate();
-        }
-
+        updateKeyState(keys.keyMap.left, player.leftTurn);
+        updateKeyState(keys.keyMap.right, player.rightTurn);
+        updateKeyState(keys.keyMap.up, player.accelerate);
+        
         if (keys.isPressed(keys.keyMap.space)) {
             if (spaceCount == 0) {
                 var bullet = player.fire();
@@ -43,6 +32,8 @@ function AsteroidsGame(two, boundaries, logger, keys) {
             }
 
             spaceCount++;
+        } else {
+            spaceCount = 0;
         }
 
         if (spaceCount > bulletRate)
@@ -63,6 +54,13 @@ function AsteroidsGame(two, boundaries, logger, keys) {
         fps.Count();
         playerState.reset();
     });
+
+    var updateKeyState = function (key, pressedEvent) {
+        playerState.updateKeyState(key, keys.isPressed(key));
+        if (keys.isPressed(key) && pressedEvent != null) {
+            pressedEvent();
+        }
+    };
 
     // used for creating the player and enemy ships
     var createShip = function (colour, guid) {
