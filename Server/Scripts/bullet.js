@@ -65,8 +65,8 @@ function Bullet(two, shipDetails, boundaries, logger, id) {
 
     var generateDto = function () {
         return {
-            x: parseInt(shape.translation.x),
-            y: parseInt(shape.translation.y),
+            x: Math.round(shape.translation.x),
+            y: Math.round(shape.translation.y),
             r: shape.rotation,
             id: id,
             v: victim

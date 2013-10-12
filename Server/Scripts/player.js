@@ -30,6 +30,7 @@ function Player(two, ship, boundaries, logger, guid, colour) {
     };
 
     var accelerate = function () {
+        // where the magic happens
         if (velocityX < maxSpeed && velocityX > -maxSpeed)
             velocityX += Math.cos(ship.rotation) * moveSpeed;
 
@@ -140,8 +141,8 @@ function Player(two, ship, boundaries, logger, guid, colour) {
 
     var generateDto = function () {
         return {
-            x: ship.translation.x, // returning int to help reduce the data size being transfered
-            y: ship.translation.y,
+            x: Math.round(ship.translation.x), // returning int to help reduce the data size being transfered
+            y: Math.round(ship.translation.y),
             r: ship.rotation,
             vx: velocityX,
             vy: velocityY,

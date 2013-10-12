@@ -95,7 +95,7 @@ function AsteroidsGame(two, boundaries, logger, keys) {
         player.eventHandlers.bulletDestroyed = bulletDestroyed;
 
         //two.play();
-        setInterval(function () { two.update(); }, 1000 / 60); //TODO: Get this working
+        setInterval(function () { two.update(); }, 1000 / 60);
     };
 
     var updateEnemies = function () {
