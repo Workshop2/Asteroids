@@ -94,8 +94,8 @@ function AsteroidsGame(two, boundaries, logger, keys) {
         player = player || createShip(signedInDetails.colour, userInfo.guid);
         player.eventHandlers.bulletDestroyed = bulletDestroyed;
 
-        two.play();
-        //setInterval(function () { two.update(); }, 1000 / 60); //TODO: Get this working
+        //two.play();
+        setInterval(function () { two.update(); }, 1000 / 60); //TODO: Get this working
     };
 
     var updateEnemies = function () {
@@ -136,6 +136,8 @@ function AsteroidsGame(two, boundaries, logger, keys) {
     };
 
     var updatePlayer = function () {
+        if (player == null)
+            return;
         if (numberOfEnemies() < 1)
             return;
 
