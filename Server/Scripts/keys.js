@@ -43,11 +43,13 @@ function Keys() {
     };
 	
 	var keyMap = {
-		up: 38,
-		down: 40,
-		left: 37,
-		right: 39,
-        space: 32
+		up:     38,
+		down:   40,
+		left:   37,
+		right:  39,
+		space:  32,
+		alt:    18,
+		ctrl:   17
 	};
 	
 	$(document).keydown(keyDown);
@@ -57,6 +59,9 @@ function Keys() {
 	for(var i = 112; i <= 123; i++) {
 		ignoreKeys.push(i);
 	}
+
+	ignoreKeys.push(keyMap.alt);
+	ignoreKeys.push(keyMap.ctrl);
 	
 	return {
 		keyMap: keyMap,

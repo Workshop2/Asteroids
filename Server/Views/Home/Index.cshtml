@@ -61,6 +61,7 @@
             
             // resets the currently pressed keys when window focus is lost
             window.onpageshow = window.onpagehide = window.onfocus = window.onblur = keys.reset;
+            window.onerror = logger.error;
 
             // create game
             var game = new AsteroidsGame(two, boundaries, logger, keys);

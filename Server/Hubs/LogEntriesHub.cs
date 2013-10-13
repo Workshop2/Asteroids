@@ -16,5 +16,10 @@ namespace Server
 		{
 			_log.Info(message);
 		}
+
+        public void Error(string message)
+        {
+            _log.Error(message);
+        }
 	}
 }
