@@ -3,6 +3,7 @@
 /// <reference path="fps.js" />
 /// <reference path="playerState.js" />
 /// <reference path="ship.js" />
+/// <reference path="asteroid.js" />
 function AsteroidsGame(two, boundaries, logger, keys) {
 
     // consts
@@ -18,6 +19,22 @@ function AsteroidsGame(two, boundaries, logger, keys) {
         userInfo = null,
         updateRate = 0; //changes depends on number of users
 
+    /*
+        ----------- Start the game -----------
+    */
+    var start = function (signedInDetails) {
+        userInfo = signedInDetails;
+
+        player = player || createPlayer(signedInDetails.colour, userInfo.guid);
+        player.eventHandlers.bulletDestroyed = bulletDestroyed;
+
+        //two.play();
+        setInterval(function () { two.update(); }, 1000 / 60);
+    };
+
+    /*
+        ----------- Game Loop -----------
+    */
     two.bind('update', function () {
         // playerState alerts us when the currently pressed keys have changed
         // this will initiate an emergency update (sends to server)
@@ -68,16 +85,6 @@ function AsteroidsGame(two, boundaries, logger, keys) {
         var ship = new Ship(two, colour);
 
         return new Player(two, ship, boundaries, logger, guid, colour);
-    };
-
-    var play = function (signedInDetails) {
-        userInfo = signedInDetails;
-
-        player = player || createPlayer(signedInDetails.colour, userInfo.guid);
-        player.eventHandlers.bulletDestroyed = bulletDestroyed;
-
-        //two.play();
-        setInterval(function () { two.update(); }, 1000 / 60);
     };
 
     var updateEnemies = function () {
@@ -189,7 +196,7 @@ function AsteroidsGame(two, boundaries, logger, keys) {
     };
 
     return {
-        play: play,
+        start: start,
         setConnector: setConnector,
         playerJoined: playerJoined,
         playerDisconnected: playerDisconnected,

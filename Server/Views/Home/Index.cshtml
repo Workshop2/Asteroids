@@ -20,6 +20,7 @@
     <script type="text/javascript" src="~/Scripts/playerState.js"></script>
     <script type="text/javascript" src="~/Scripts/bullet.js"></script>
     <script type="text/javascript" src="~/Scripts/ship.js"></script>
+    <script type="text/javascript" src="~/Scripts/asteroid.js"></script>
     <script type="text/javascript" src="~/signalr/hubs"></script>
 </head>
 <body>
@@ -72,7 +73,7 @@
                 playerJoined: game.playerJoined,
                 playerDisconnected: game.playerDisconnected,
                 playerChange: game.playerChange,
-                signedIn: function (userDetails) { game.play(userDetails); }, // start the game
+                signedIn: function (userDetails) { game.start(userDetails); }, // start the game
                 enemyBullet: game.enemyBullet,
                 enemyBulletDestroyed: game.enemyBulletDestroyed
             };
