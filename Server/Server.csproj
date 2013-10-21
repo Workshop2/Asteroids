@@ -123,6 +123,7 @@
     <Content Include="Global.asax" />
     <Content Include="logo.png" />
     <Content Include="Scripts\bullet.js" />
+    <Content Include="Scripts\asteroid.js" />
     <Content Include="Scripts\ship.js" />
     <Content Include="Scripts\enemy.js" />
     <None Include="Properties\PublishProfiles\AsteroidsFtp.pubxml" />
