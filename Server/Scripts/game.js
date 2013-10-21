@@ -2,6 +2,7 @@
 /// <reference path="enemy.js" />
 /// <reference path="fps.js" />
 /// <reference path="playerState.js" />
+/// <reference path="ship.js" />
 function AsteroidsGame(two, boundaries, logger, keys) {
 
     // consts
@@ -63,35 +64,16 @@ function AsteroidsGame(two, boundaries, logger, keys) {
     };
 
     // used for creating the player and enemy ships
-    var createShip = function (colour, guid) {
-        var height = 14,
-			width = 20;
+    var createPlayer = function (colour, guid) {
+        var ship = new Ship(two, colour);
 
-        var x1 = -(width / 2),
-			y1 = -(height / 2),
-
-			x2 = -(width / 2),
-			y2 = (height / 2),
-
-			x3 = width / 2,
-			y3 = 0;
-
-        var ship = two.makePolygon(x1, y1, x2, y2, x3, y3);
-        ship.stroke = colour || '#BFFF00';
-        ship.linewidth = 2;
-        ship.noFill();
-
-        // position in center of screen
-        var group = two.makeGroup(ship);
-        group.translation.set(two.width / 2, two.height / 2);
-
-        return new Player(two, group, boundaries, logger, guid, colour);
+        return new Player(two, ship, boundaries, logger, guid, colour);
     };
 
     var play = function (signedInDetails) {
         userInfo = signedInDetails;
 
-        player = player || createShip(signedInDetails.colour, userInfo.guid);
+        player = player || createPlayer(signedInDetails.colour, userInfo.guid);
         player.eventHandlers.bulletDestroyed = bulletDestroyed;
 
         //two.play();
@@ -114,8 +96,8 @@ function AsteroidsGame(two, boundaries, logger, keys) {
     var playerJoined = function (playerInfo) {
         logger.write(playerInfo.displayName + " has joined the game");
 
-        var ship = createShip(playerInfo.colour, playerInfo.guid);
-        var enemy = new Enemy(playerInfo, ship);
+        var enemyPlayer = createPlayer(playerInfo.colour, playerInfo.guid);
+        var enemy = new Enemy(playerInfo, enemyPlayer);
 
         enemies[playerInfo.guid] = enemy;
 
