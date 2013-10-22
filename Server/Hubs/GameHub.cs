@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNet.SignalR;
@@ -91,7 +92,8 @@ namespace Server
         private static string RandomColour()
         {
             var random = new Random();
-            return String.Format("#{0:X6}", random.Next(0x1000000));
+            Color c = Color.FromArgb(random.Next(60, 255), random.Next(60, 255), random.Next(60, 255));
+            return ColorTranslator.ToHtml(c);
         }
     }
 
