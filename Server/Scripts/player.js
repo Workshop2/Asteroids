@@ -1,5 +1,5 @@
-// Contains all of the logic for movement within the the game
-// Can pass any Two.js object in to give it ship movement
+/// <reference path="spaceMovement.js" />
+/// <reference path="bullet.js" />
 function Player(two, ship, boundaries, logger, guid, colour) {
 
     /*
