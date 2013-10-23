@@ -1,4 +1,5 @@
-﻿function Enemy(userInfo, ship) {
+﻿/// <reference path="keys.js" />
+function Enemy(userInfo, ship) {
     var keys = [],
         keyMap = new Keys().keyMap;
 
