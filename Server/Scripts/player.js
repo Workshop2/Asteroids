@@ -15,6 +15,8 @@ function Player(two, ship, boundaries, logger, guid, colour) {
 		velocityRotation = 0,
         shootCount = 0;
 
+    var movement = new SpaceMovement({}, ship.translation.x, ship.translation.y, ship.rotation);
+
     var bullets = [];
 
     var eventHandlers = {
@@ -22,20 +24,15 @@ function Player(two, ship, boundaries, logger, guid, colour) {
     };
 
     var leftTurn = function () {
-        velocityRotation = -rotationSpeed;
+        movement.rotateLeft();
     };
 
     var rightTurn = function () {
-        velocityRotation = rotationSpeed;
+        movement.rotateRight();
     };
 
     var accelerate = function () {
-        // where the magic happens
-        if (velocityX < maxSpeed && velocityX > -maxSpeed)
-            velocityX += Math.cos(ship.rotation) * moveSpeed;
-
-        if (velocityY < maxSpeed && velocityY > -maxSpeed)
-            velocityY += Math.sin(ship.rotation) * moveSpeed;
+        movement.accelerate();
     };
 
     var fire = function () {
@@ -73,15 +70,11 @@ function Player(two, ship, boundaries, logger, guid, colour) {
     };
 
     var update = function (enemies) {
-        ship.translation.x += velocityX;
-        ship.translation.y += velocityY;
+        var shipUpdate = movement.update();
 
-        // apply drag to the ship
-        velocityX *= velocityDrag;
-        velocityY *= velocityDrag;
-
-        ship.rotation += velocityRotation;
-        velocityRotation *= rotationDrag;
+        ship.translation.x = shipUpdate.x;
+        ship.translation.y = shipUpdate.y;
+        ship.rotation = shipUpdate.rotation;
 
         wrapShip();
         updateBullets(enemies);
@@ -124,18 +117,18 @@ function Player(two, ship, boundaries, logger, guid, colour) {
     var wrapShip = function () {
         // horizontal
         if (ship.translation.x < boundaries.width.min) {
-            ship.translation.x = boundaries.width.max;
+            movement.setX(boundaries.width.max);
         }
         else if (ship.translation.x > boundaries.width.max) {
-            ship.translation.x = boundaries.width.min;
+            movement.setX(boundaries.width.min);
         }
 
         // vertical
         if (ship.translation.y < boundaries.height.min) {
-            ship.translation.y = boundaries.height.max;
+            movement.setY(boundaries.height.max);
         }
         else if (ship.translation.y > boundaries.height.max) {
-            ship.translation.y = boundaries.height.min;
+            movement.setY(boundaries.height.min);
         }
     };
 
