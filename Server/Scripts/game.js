@@ -3,7 +3,7 @@
 /// <reference path="fps.js" />
 /// <reference path="playerState.js" />
 /// <reference path="ship.js" />
-/// <reference path="asteroid.js" />
+/// <reference path="asteroidCollection.js" />
 function AsteroidsGame(two, boundaries, logger, keys) {
 
     // consts
@@ -17,8 +17,12 @@ function AsteroidsGame(two, boundaries, logger, keys) {
 	    spaceCount = 0,
         playerState = new PlayerState(),
         userInfo = null,
-        updateRate = 0,
-        asteroid = new Asteroid(two, boundaries); //changes depends on number of users
+        updateRate = 30, //changes depends on number of users
+        asteroids = new AsteroidCollection(two, boundaries);
+
+    for (var i = 0; i < 10; i++) {
+        asteroids.newAsteroid();
+    }
 
     /*
         ----------- Start the game -----------
@@ -69,7 +73,7 @@ function AsteroidsGame(two, boundaries, logger, keys) {
         count++;
 
         updateEnemies();
-        asteroid.update();
+        asteroids.update();
 
         // update the fps counter
         fps.Count();

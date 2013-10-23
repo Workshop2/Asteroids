@@ -67,7 +67,7 @@
         return {
             x: Math.round(entity.x), // returning int to help reduce the data size being transfered
             y: Math.round(entity.y),
-            r: rotation,
+            r: entity.rotation,
             vx: variables.velocityX,
             vy: variables.velocityY,
             vR: variables.velocityRotation

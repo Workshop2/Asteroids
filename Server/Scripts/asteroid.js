@@ -15,8 +15,8 @@ function Asteroid(two, boundaries) {
     var movementConsts = {
         moveSpeed: 0.01,
         rotationSpeed: 0.01,
-        velocityDrag: 1,
-        rotationDrag: 1,
+        velocityDrag: 1, // never drag
+        rotationDrag: 1, // never drag
         maxSpeed: 1
     };
 
