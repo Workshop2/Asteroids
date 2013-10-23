@@ -17,7 +17,7 @@ function AsteroidsGame(two, boundaries, logger, keys) {
 	    spaceCount = 0,
         playerState = new PlayerState(),
         userInfo = null,
-        updateRate = 30, //changes depends on number of users
+        updateRate = 30,
         asteroids = new AsteroidCollection(two, boundaries);
 
     for (var i = 0; i < 10; i++) {
