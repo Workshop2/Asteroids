@@ -2,25 +2,34 @@
 // Can pass any Two.js object in to give it ship movement
 function Player(two, ship, boundaries, logger, guid, colour) {
 
-    // consts
-    var moveSpeed = 0.05,
-		rotationSpeed = 0.04,
-		velocityDrag = 0.998,
-		rotationDrag = 0.940,
-        maxSpeed = 4;
-
-    // private members
-    var velocityX = 0,
-		velocityY = 0,
-		velocityRotation = 0,
-        shootCount = 0;
-
-    var movement = new SpaceMovement({}, ship.translation.x, ship.translation.y, ship.rotation);
-
-    var bullets = [];
+    /*
+        Private Members
+    */
+    
+    var shootCount = 0,
+        movement = new SpaceMovement({}, ship.translation.x, ship.translation.y, ship.rotation),
+        bullets = [];
 
     var eventHandlers = {
         bulletDestroyed: function () { }
+    };
+
+
+
+
+    /*
+        Methods and functions
+    */
+
+    var update = function (enemies) {
+        var shipUpdate = movement.update();
+
+        ship.translation.x = shipUpdate.x;
+        ship.translation.y = shipUpdate.y;
+        ship.rotation = shipUpdate.rotation;
+
+        wrapShip();
+        updateBullets(enemies);
     };
 
     var leftTurn = function () {
@@ -46,6 +55,31 @@ function Player(two, ship, boundaries, logger, guid, colour) {
         return bullet;
     };
 
+    // If the ship leaves the boundaries of the games, wrap it
+    var wrapShip = function () {
+        // horizontal
+        if (ship.translation.x < boundaries.width.min) {
+            movement.setX(boundaries.width.max);
+        }
+        else if (ship.translation.x > boundaries.width.max) {
+            movement.setX(boundaries.width.min);
+        }
+
+        // vertical
+        if (ship.translation.y < boundaries.height.min) {
+            movement.setY(boundaries.height.max);
+        }
+        else if (ship.translation.y > boundaries.height.max) {
+            movement.setY(boundaries.height.min);
+        }
+    };
+    
+
+
+    /*
+        Bullets
+    */
+
     var fireFromDto = function (bulletDto) {
         shootCount++;
         
@@ -55,17 +89,6 @@ function Player(two, ship, boundaries, logger, guid, colour) {
         bullets.push(bullet);
 
         return bullet;
-    };
-
-    var update = function (enemies) {
-        var shipUpdate = movement.update();
-
-        ship.translation.x = shipUpdate.x;
-        ship.translation.y = shipUpdate.y;
-        ship.rotation = shipUpdate.rotation;
-
-        wrapShip();
-        updateBullets(enemies);
     };
 
     var updateBullets = function (enemies) {
@@ -101,33 +124,6 @@ function Player(two, ship, boundaries, logger, guid, colour) {
         }
     };
 
-    // If the ship leaves the boundaries of the games, wrap it
-    var wrapShip = function () {
-        // horizontal
-        if (ship.translation.x < boundaries.width.min) {
-            movement.setX(boundaries.width.max);
-        }
-        else if (ship.translation.x > boundaries.width.max) {
-            movement.setX(boundaries.width.min);
-        }
-
-        // vertical
-        if (ship.translation.y < boundaries.height.min) {
-            movement.setY(boundaries.height.max);
-        }
-        else if (ship.translation.y > boundaries.height.max) {
-            movement.setY(boundaries.height.min);
-        }
-    };
-
-    var generateDto = function () {
-        return movement.generateDto();
-    };
-
-    var updateFromDto = function (dto) {
-        movement.updateFromDto(dto);
-    };
-
     var destroyBullet = function (bullet) {
         var index = bullets.indexOf(bullet);
         bullet.destroy();
@@ -147,6 +143,26 @@ function Player(two, ship, boundaries, logger, guid, colour) {
             }
         }
     };
+
+
+
+    /*
+        Network Stuff
+    */
+
+    var generateDto = function () {
+        return movement.generateDto();
+    };
+
+    var updateFromDto = function (dto) {
+        movement.updateFromDto(dto);
+    };
+
+
+
+    /*
+        Destructor
+    */
 
     var destroy = function () {
         for (var i = 0; i < bullets.length; i++) {
