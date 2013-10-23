@@ -28,7 +28,7 @@ function AsteroidsGame(two, boundaries, logger, keys) {
         player = player || createPlayer(signedInDetails.colour, userInfo.guid);
         player.eventHandlers.bulletDestroyed = bulletDestroyed;
 
-        var asteroid = new Asteroid(two);
+        //var asteroid = new Asteroid(two);
 
         //two.play();
         setInterval(function () { two.update(); }, 1000 / 60);
