@@ -7,7 +7,7 @@ function Player(two, ship, boundaries, logger, guid, colour) {
     */
     
     var shootCount = 0,
-        movement = new SpaceMovement({}, ship.translation.x, ship.translation.y, ship.rotation),
+        movement = new SpaceMovement(ship.translation.x, ship.translation.y, ship.rotation),
         bullets = [];
 
     var eventHandlers = {

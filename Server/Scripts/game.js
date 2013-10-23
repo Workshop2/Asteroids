@@ -17,7 +17,8 @@ function AsteroidsGame(two, boundaries, logger, keys) {
 	    spaceCount = 0,
         playerState = new PlayerState(),
         userInfo = null,
-        updateRate = 0; //changes depends on number of users
+        updateRate = 0,
+        asteroid = new Asteroid(two); //changes depends on number of users
 
     /*
         ----------- Start the game -----------
@@ -28,7 +29,6 @@ function AsteroidsGame(two, boundaries, logger, keys) {
         player = player || createPlayer(signedInDetails.colour, userInfo.guid);
         player.eventHandlers.bulletDestroyed = bulletDestroyed;
 
-        var asteroid = new Asteroid(two);
 
         //two.play();
         setInterval(function () { two.update(); }, 1000 / 60);
@@ -69,6 +69,7 @@ function AsteroidsGame(two, boundaries, logger, keys) {
         count++;
 
         updateEnemies();
+        asteroid.update();
 
         // update the fps counter
         fps.Count();

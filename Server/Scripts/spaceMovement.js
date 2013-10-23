@@ -1,44 +1,46 @@
-﻿function SpaceMovement(variables, x, y, rotation) {
+﻿function SpaceMovement(x, y, rotation, consts, variables) {
 
-    variables = $.extend(variables, {
-        moveSpeed:      0.05,
-        rotationSpeed:  0.04,
-        velocityDrag:   0.998,
-        rotationDrag:   0.940,
-        maxSpeed:       4
-    });
-    
-    var velocityX = 0,
-		velocityY = 0,
-		velocityRotation = 0;
+    consts = $.extend({
+        moveSpeed: 0.05,
+        rotationSpeed: 0.04,
+        velocityDrag: 0.998,
+        rotationDrag: 0.940,
+        maxSpeed: 4
+    }, consts);
+
+    variables = $.extend({
+        velocityX: 0,
+        velocityY: 0,
+        velocityRotation: 0
+    }, variables);
 
     var rotateLeft = function () {
-        velocityRotation = -variables.rotationSpeed;
+        variables.velocityRotation = -consts.rotationSpeed;
     };
 
     var rotateRight = function () {
-        velocityRotation = variables.rotationSpeed;
+        variables.velocityRotation = consts.rotationSpeed;
     };
 
     var accelerate = function () {
         // where the magic happens
-        if (velocityX < variables.maxSpeed && velocityX > -variables.maxSpeed)
-            velocityX += Math.cos(rotation) * variables.moveSpeed;
+        if (variables.velocityX < consts.maxSpeed && variables.velocityX > -consts.maxSpeed)
+            variables.velocityX += Math.cos(rotation) * consts.moveSpeed;
 
-        if (velocityY < variables.maxSpeed && velocityY > -variables.maxSpeed)
-            velocityY += Math.sin(rotation) * variables.moveSpeed;
+        if (variables.velocityY < consts.maxSpeed && variables.velocityY > -consts.maxSpeed)
+            variables.velocityY += Math.sin(rotation) * consts.moveSpeed;
     };
 
     var update = function () {
-        x += velocityX;
-        y += velocityY;
+        x += variables.velocityX;
+        y += variables.velocityY;
 
         // apply drag to the ship
-        velocityX *= variables.velocityDrag;
-        velocityY *= variables.velocityDrag;
+        variables.velocityX *= consts.velocityDrag;
+        variables.velocityY *= consts.velocityDrag;
         
-        rotation += velocityRotation;
-        velocityRotation *= variables.rotationDrag;
+        rotation += variables.velocityRotation;
+        variables.velocityRotation *= consts.rotationDrag;
 
         return {
             x: x,
@@ -60,9 +62,9 @@
         y = dto.y;
         rotation = dto.r;
 
-        velocityX = dto.vx;
-        velocityY = dto.vy;
-        velocityRotation = dto.vR;
+        variables.velocityX = dto.vx;
+        variables.velocityY = dto.vy;
+        variables.velocityRotation = dto.vR;
     };
 
     var generateDto = function () {
@@ -70,9 +72,9 @@
             x: Math.round(x), // returning int to help reduce the data size being transfered
             y: Math.round(y),
             r: rotation,
-            vx: velocityX,
-            vy: velocityY,
-            vR: velocityRotation
+            vx: variables.velocityX,
+            vy: variables.velocityY,
+            vR: variables.velocityRotation
         };
     };
 
