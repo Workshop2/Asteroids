@@ -37,14 +37,8 @@ function Player(two, ship, boundaries, logger, guid, colour) {
 
     var fire = function () {
         shootCount++;
-        var shipDetails = {
-            x: ship.translation.x,
-            y: ship.translation.y,
-            rotation: ship.rotation,
-            velocityX: velocityX,
-            velocityY: velocityY,
-            colour: colour
-        };
+
+        var shipDetails = $.extend(movement.generateDto(), { colour: colour });
 
         var bullet = new Bullet(two, shipDetails, boundaries, logger, shootCount);
         bullets.push(bullet);
@@ -54,14 +48,8 @@ function Player(two, ship, boundaries, logger, guid, colour) {
 
     var fireFromDto = function (bulletDto) {
         shootCount++;
-        var shipDetails = {
-            x: bulletDto.x,
-            y: bulletDto.y,
-            rotation: bulletDto.r,
-            velocityX: 0, // not currently used
-            velocityY: 0,
-            colour: colour
-        };
+        
+        var shipDetails = $.extend(bulletDto, { colour: colour });
 
         var bullet = new Bullet(two, shipDetails, boundaries, logger, bulletDto.id);
         bullets.push(bullet);
@@ -133,24 +121,11 @@ function Player(two, ship, boundaries, logger, guid, colour) {
     };
 
     var generateDto = function () {
-        return {
-            x: Math.round(ship.translation.x), // returning int to help reduce the data size being transfered
-            y: Math.round(ship.translation.y),
-            r: ship.rotation,
-            vx: velocityX,
-            vy: velocityY,
-            vR: velocityRotation
-        };
+        return movement.generateDto();
     };
 
     var updateFromDto = function (dto) {
-        ship.translation.x = dto.x;
-        ship.translation.y = dto.y;
-        ship.rotation = dto.r;
-
-        velocityX = dto.vx;
-        velocityY = dto.vy;
-        velocityRotation = dto.vR;
+        movement.updateFromDto(dto);
     };
 
     var destroyBullet = function (bullet) {

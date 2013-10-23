@@ -55,12 +55,35 @@
         y = newY;
     };
 
+    var updateFromDto = function (dto) {
+        x = dto.x;
+        y = dto.y;
+        rotation = dto.r;
+
+        velocityX = dto.vx;
+        velocityY = dto.vy;
+        velocityRotation = dto.vR;
+    };
+
+    var generateDto = function () {
+        return {
+            x: Math.round(x), // returning int to help reduce the data size being transfered
+            y: Math.round(y),
+            r: rotation,
+            vx: velocityX,
+            vy: velocityY,
+            vR: velocityRotation
+        };
+    };
+
     return {
         rotateLeft: rotateLeft,
         rotateRight: rotateRight,
         accelerate: accelerate,
         update: update,
         setX: setX,
-        setY: setY
+        setY: setY,
+        updateFromDto: updateFromDto,
+        generateDto: generateDto
     };
 };

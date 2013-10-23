@@ -12,8 +12,7 @@ function Bullet(two, shipDetails, boundaries, logger, id) {
         victim = null;
 
     shape.fill = shipDetails.colour;
-    shape.rotation = shipDetails.rotation;
-
+    shape.rotation = shipDetails.r;
 
     var update = function () {
         shape.translation.x += Math.cos(shape.rotation) * velocityX;
