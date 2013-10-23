@@ -18,7 +18,7 @@ function AsteroidsGame(two, boundaries, logger, keys) {
         playerState = new PlayerState(),
         userInfo = null,
         updateRate = 0,
-        asteroid = new Asteroid(two); //changes depends on number of users
+        asteroid = new Asteroid(two, boundaries); //changes depends on number of users
 
     /*
         ----------- Start the game -----------

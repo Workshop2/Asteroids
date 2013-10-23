@@ -1,6 +1,6 @@
 ﻿/// <reference path="spaceMovement.js" />
 /// <reference path="two.js" />
-function Asteroid(two) {
+function Asteroid(two, boundaries) {
     var height = 50,
 		width = 50;
 
@@ -15,9 +15,9 @@ function Asteroid(two) {
     };
 
     var movementVars = {
-        velocityX: 0.5,
-        velocityY: 0.5,
-        velocityRotation: 0.02
+        velocityX: 0.5 + (Math.random() / 100),
+        velocityY: 0.5 + (Math.random() / 100),
+        velocityRotation: 0.02 + (Math.random() / 100)
     };
 
     var movement = new SpaceMovement(asteroid.translation.x, asteroid.translation.y, asteroid.rotation, movementConsts, movementVars);
@@ -27,9 +27,27 @@ function Asteroid(two) {
         var updateResult = movement.update();
 
         asteroid.translation.set(updateResult.x, updateResult.y);
-        //asteroid.translation.x = updateResult.x;
-        //asteroid.translation.y = updateResult.y;
         asteroid.rotation = updateResult.rotation;
+
+        wrapAsteroid();
+    };
+    
+    var wrapAsteroid = function () {
+        // horizontal
+        if (asteroid.translation.x < boundaries.width.min) {
+            movement.setX(boundaries.width.max);
+        }
+        else if (asteroid.translation.x > boundaries.width.max) {
+            movement.setX(boundaries.width.min);
+        }
+
+        // vertical
+        if (asteroid.translation.y < boundaries.height.min) {
+            movement.setY(boundaries.height.max);
+        }
+        else if (asteroid.translation.y > boundaries.height.max) {
+            movement.setY(boundaries.height.min);
+        }
     };
 
 

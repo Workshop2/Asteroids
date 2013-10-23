@@ -24,8 +24,7 @@ function Player(two, ship, boundaries, logger, guid, colour) {
     var update = function (enemies) {
         var shipUpdate = movement.update();
 
-        ship.translation.x = shipUpdate.x;
-        ship.translation.y = shipUpdate.y;
+        ship.translation.set(shipUpdate.x, shipUpdate.y);
         ship.rotation = shipUpdate.rotation;
 
         wrapShip();
