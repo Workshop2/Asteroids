@@ -1,4 +1,4 @@
-﻿function SpaceMovement(x, y, rotation, consts, variables) {
+﻿function SpaceMovement(entity, consts, variables) {
 
     consts = $.extend({
         moveSpeed: 0.05,
@@ -25,42 +25,38 @@
     var accelerate = function () {
         // where the magic happens
         if (variables.velocityX < consts.maxSpeed && variables.velocityX > -consts.maxSpeed)
-            variables.velocityX += Math.cos(rotation) * consts.moveSpeed;
+            variables.velocityX += Math.cos(entity.rotation) * consts.moveSpeed;
 
         if (variables.velocityY < consts.maxSpeed && variables.velocityY > -consts.maxSpeed)
-            variables.velocityY += Math.sin(rotation) * consts.moveSpeed;
+            variables.velocityY += Math.sin(entity.rotation) * consts.moveSpeed;
     };
 
     var update = function () {
-        x += variables.velocityX;
-        y += variables.velocityY;
+        entity.x += variables.velocityX;
+        entity.y += variables.velocityY;
 
         // apply drag to the ship
         variables.velocityX *= consts.velocityDrag;
         variables.velocityY *= consts.velocityDrag;
         
-        rotation += variables.velocityRotation;
+        entity.rotation += variables.velocityRotation;
         variables.velocityRotation *= consts.rotationDrag;
 
-        return {
-            x: x,
-            y: y,
-            rotation: rotation
-        };
+        return entity;
     };
 
     var setX = function (newX) {
-        x = newX;
+        entity.x = newX;
     };
 
     var setY = function (newY) {
-        y = newY;
+        entity.y = newY;
     };
 
     var updateFromDto = function (dto) {
-        x = dto.x;
-        y = dto.y;
-        rotation = dto.r;
+        entity.x = dto.x;
+        entity.y = dto.y;
+        entity.rotation = dto.r;
 
         variables.velocityX = dto.vx;
         variables.velocityY = dto.vy;
@@ -69,8 +65,8 @@
 
     var generateDto = function () {
         return {
-            x: Math.round(x), // returning int to help reduce the data size being transfered
-            y: Math.round(y),
+            x: Math.round(entity.x), // returning int to help reduce the data size being transfered
+            y: Math.round(entity.y),
             r: rotation,
             vx: variables.velocityX,
             vy: variables.velocityY,

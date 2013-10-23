@@ -6,6 +6,8 @@ function Asteroid(two, boundaries) {
 
     var asteroid = generateAsteroid(two);
 
+    var initialPosition = { x: asteroid.translation.x, y: asteroid.translation.y, rotation: asteroid.rotation };
+
     var movementConsts = {
         moveSpeed: 0.01,
         rotationSpeed: 0.01,
@@ -15,12 +17,12 @@ function Asteroid(two, boundaries) {
     };
 
     var movementVars = {
-        velocityX: 0.5 + (Math.random() / 100),
-        velocityY: 0.5 + (Math.random() / 100),
-        velocityRotation: 0.02 + (Math.random() / 100)
+        velocityX: Math.random() - 0.6,//0.5 + (Math.random() / 100),
+        velocityY: Math.random() - 0.4,//0.5 + (Math.random() / 100),
+        velocityRotation: Math.random() / 10 - 0.04//0.02 + (Math.random() / 100)
     };
 
-    var movement = new SpaceMovement(asteroid.translation.x, asteroid.translation.y, asteroid.rotation, movementConsts, movementVars);
+    var movement = new SpaceMovement(initialPosition, movementConsts, movementVars);
     
 
     var update = function () {

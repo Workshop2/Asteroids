@@ -5,9 +5,8 @@ function Player(two, ship, boundaries, logger, guid, colour) {
     /*
         Private Members
     */
-    
     var shootCount = 0,
-        movement = new SpaceMovement(ship.translation.x, ship.translation.y, ship.rotation),
+        movement = new SpaceMovement({ x: ship.translation.x, y: ship.translation.y, rotation: ship.rotation }),
         bullets = [];
 
     var eventHandlers = {
