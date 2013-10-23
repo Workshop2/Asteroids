@@ -38,9 +38,9 @@ function Player(two, ship, boundaries, logger, guid, colour) {
     var fire = function () {
         shootCount++;
 
-        var shipDetails = $.extend(movement.generateDto(), { colour: colour });
+        var bulletDto = $.extend(movement.generateDto(), { colour: colour });
 
-        var bullet = new Bullet(two, shipDetails, boundaries, logger, shootCount);
+        var bullet = new Bullet(two, bulletDto, boundaries, logger, shootCount);
         bullets.push(bullet);
 
         return bullet;
@@ -49,9 +49,9 @@ function Player(two, ship, boundaries, logger, guid, colour) {
     var fireFromDto = function (bulletDto) {
         shootCount++;
         
-        var shipDetails = $.extend(bulletDto, { colour: colour });
+        bulletDto = $.extend(bulletDto, { colour: colour });
 
-        var bullet = new Bullet(two, shipDetails, boundaries, logger, bulletDto.id);
+        var bullet = new Bullet(two, bulletDto, boundaries, logger, bulletDto.id);
         bullets.push(bullet);
 
         return bullet;

@@ -1,18 +1,18 @@
 ﻿/// <reference path="enemy.js" />
 /// <reference path="logger.js" />
-function Bullet(two, shipDetails, boundaries, logger, id) {
+function Bullet(two, bulletDto, boundaries, logger, id) {
 
     // consts
     var moveSpeed = 4.5;
 
     // properties
-    var shape = two.makeCircle(shipDetails.x, shipDetails.y, 2),
+    var shape = two.makeCircle(bulletDto.x, bulletDto.y, 2),
         velocityX = /*shipDetails.velocityX +*/ moveSpeed,
         velocityY = /*shipDetails.velocityY +*/ moveSpeed,
         victim = null;
 
-    shape.fill = shipDetails.colour;
-    shape.rotation = shipDetails.r;
+    shape.fill = bulletDto.colour;
+    shape.rotation = bulletDto.r;
 
     var update = function () {
         shape.translation.x += Math.cos(shape.rotation) * velocityX;
