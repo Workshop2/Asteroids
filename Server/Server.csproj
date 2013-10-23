@@ -122,6 +122,7 @@
     <None Include="Properties\PublishProfiles\Asteroids - Web Deploy.pubxml" />
     <Content Include="Global.asax" />
     <Content Include="logo.png" />
+    <Content Include="Scripts\asteroidCollection.js" />
     <Content Include="Scripts\bullet.js" />
     <Content Include="Scripts\asteroid.js" />
     <Content Include="Scripts\spaceMovement.js" />
