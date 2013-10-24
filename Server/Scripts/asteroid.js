@@ -1,18 +1,16 @@
 ﻿/// <reference path="spaceMovement.js" />
 /// <reference path="two.js" />
-function Asteroid(two, boundaries, size) {
-    size = size || {
-        width: 50,
-        height: 50
-    };
+function Asteroid(two, boundaries, size, initialPosition) {
+    
+    size = $.extend({}, {width: 50, height: 50}, size);
 
     var asteroid = generateAsteroid(two);
 
-    var initialPosition = {
-        x: Math.floor(Math.random() * boundaries.width.max) + 1,
-        y: Math.floor(Math.random() * boundaries.height.max) + 1,
+    initialPosition = $.extend({}, {
+        x: random(boundaries.width.max),
+        y: random(boundaries.height.max),
         rotation: asteroid.rotation
-    };
+    }, initialPosition);
 
     var movementConsts = {
         moveSpeed: 0.01,
@@ -66,7 +64,8 @@ function Asteroid(two, boundaries, size) {
         var height = size.height,
             width = size.width;
 
-        var newAsteroid = twoJs.makeCircle(height, width, width);
+        var newAsteroid = twoJs.makeCircle(height, width, 0);
+        newAsteroid.translation.set(-size.width, -size.height);
         newAsteroid.stroke = '#BFFF00';
         newAsteroid.linewidth = 2;
         newAsteroid.noFill();
@@ -90,6 +89,12 @@ function Asteroid(two, boundaries, size) {
         
         return newAsteroid;
     };
+    
+    function random(max) {
+        max = max | 1;
+
+        return Math.floor(Math.random() * max) + 1;
+    }
 
     return {
         update: update

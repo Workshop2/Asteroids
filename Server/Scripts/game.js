@@ -18,7 +18,8 @@ function AsteroidsGame(two, boundaries, logger, keys) {
         playerState = new PlayerState(),
         userInfo = null,
         updateRate = 40,
-        asteroids = new AsteroidCollection(two, boundaries);
+        asteroids = new AsteroidCollection(two, boundaries),
+        tmpCount = 0;
 
     for (var i = 0; i < 20; i++) {
         asteroids.newAsteroid();
@@ -71,6 +72,13 @@ function AsteroidsGame(two, boundaries, logger, keys) {
             count = 0;
         }
         count++;
+        
+        //TODO: Remove
+        if (tmpCount > 50) {
+            asteroids.spawnAsteroid();
+            tmpCount = 0;
+        }
+        tmpCount++;
 
         updateEnemies();
         asteroids.update();

@@ -1,6 +1,8 @@
 ﻿function SpaceMovement(entity, consts, variables) {
 
-    consts = $.extend({
+    entity = $.extend({}, { x: 0, y: 0, rotation: 0 }, entity);
+
+    consts = $.extend({}, {
         moveSpeed: 0.05,
         rotationSpeed: 0.04,
         velocityDrag: 0.998,
@@ -8,7 +10,7 @@
         maxSpeed: 4
     }, consts);
 
-    variables = $.extend({
+    variables = $.extend({}, {
         velocityX: 0,
         velocityY: 0,
         velocityRotation: 0
