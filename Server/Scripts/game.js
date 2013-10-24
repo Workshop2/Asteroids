@@ -20,7 +20,7 @@ function AsteroidsGame(two, boundaries, logger, keys) {
         updateRate = 40,
         asteroids = new AsteroidCollection(two, boundaries);
 
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 20; i++) {
         asteroids.newAsteroid();
     }
 

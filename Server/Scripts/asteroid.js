@@ -1,8 +1,10 @@
 ﻿/// <reference path="spaceMovement.js" />
 /// <reference path="two.js" />
-function Asteroid(two, boundaries) {
-    var height = 50,
-		width = 50;
+function Asteroid(two, boundaries, size) {
+    size = size || {
+        width: 50,
+        height: 50
+    };
 
     var asteroid = generateAsteroid(two);
 
@@ -21,9 +23,9 @@ function Asteroid(two, boundaries) {
     };
 
     var movementVars = {
-        velocityX: Math.random() - 0.6,//0.5 + (Math.random() / 100),
-        velocityY: Math.random() - 0.4,//0.5 + (Math.random() / 100),
-        velocityRotation: Math.random() / 10 - 0.04//0.02 + (Math.random() / 100)
+        velocityX: Math.random() - 0.6,
+        velocityY: Math.random() - 0.4,
+        velocityRotation: Math.random() / 10 - 0.04
     };
 
     var movement = new SpaceMovement(initialPosition, movementConsts, movementVars);
@@ -61,6 +63,9 @@ function Asteroid(two, boundaries) {
         Static methods
     */
     function generateAsteroid(twoJs) {
+        var height = size.height,
+            width = size.width;
+
         var newAsteroid = twoJs.makeCircle(height, width, width);
         newAsteroid.stroke = '#BFFF00';
         newAsteroid.linewidth = 2;
@@ -82,11 +87,7 @@ function Asteroid(two, boundaries) {
             v.x += (d.x - v.x) * 0.964;
             v.y += (d.y - v.y) * 0.976;
         }
-
-        // position in center of screen
-        //var group = two.makeGroup(asteroid);
-        //group.translation.set(two.width / 2, two.height / 2);
-
+        
         return newAsteroid;
     };
 

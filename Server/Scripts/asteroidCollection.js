@@ -8,8 +8,13 @@ function AsteroidCollection(two, boundaries, asteroids) {
         }
     };
 
-    var newAsteroid = function() {
-        asteroids.push(new Asteroid(two, boundaries));
+    var newAsteroid = function () {
+        var size = {
+            width: 25 + Math.floor(Math.random() * 25) + 1,
+            height: 25 + Math.floor(Math.random() * 25) + 1,
+        };
+
+        asteroids.push(new Asteroid(two, boundaries, size));
     };
 
     return {
