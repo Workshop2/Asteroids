@@ -89,7 +89,7 @@ function AsteroidsGame(two, boundaries, logger, keys) {
 
     var extraLoops = function () {
         //TODO: Remove
-        if (tmpCount > 1) {
+        if (tmpCount > 100) {
             asteroids.spawnAsteroid();
             tmpCount = 0;
         }
