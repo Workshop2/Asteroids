@@ -18,7 +18,7 @@ function AsteroidsGame(two, boundaries, logger, keys) {
         playerState = new PlayerState(),
         userInfo = null,
         updateRate = 40,
-        asteroids = new AsteroidCollection(two, boundaries),
+        asteroids = new AsteroidCollection(two, boundaries, logger),
         tmpCount = 0;
 
     for (var i = 0; i < 20; i++) {
@@ -34,22 +34,44 @@ function AsteroidsGame(two, boundaries, logger, keys) {
         player = player || createPlayer(signedInDetails.colour, userInfo.guid);
         player.eventHandlers.bulletDestroyed = bulletDestroyed;
 
-
-        //two.play();
         setInterval(function () { two.update(); }, 1000 / 60);
+        setInterval(update, 1000 / 60);
+        setInterval(handleKeys, 1000 / 60);
+        setInterval(extraLoops, 1000 / 60);
     };
 
     /*
-        ----------- Game Loop -----------
+        ----------- Game Loops -----------
     */
     two.bind('update', function () {
+        // update the fps counter
+        fps.Count();
+    });
+    
+    var update = function () {
+        player.update(enemies);
+
         // playerState alerts us when the currently pressed keys have changed
         // this will initiate an emergency update (sends to server)
+        // It is updated in the handleKeys method
+        var readyForUpdate = updateRate > 0 && count > updateRate;
+        if (readyForUpdate || playerState.changed()) {
+            updatePlayer();
+            count = 0;
+        }
+        count++;
 
+        updateEnemies();
+        asteroids.update();
+        
+        playerState.reset();
+    };
+
+    var handleKeys = function () {
         updateKeyState(keys.keyMap.left, player.leftTurn);
         updateKeyState(keys.keyMap.right, player.rightTurn);
         updateKeyState(keys.keyMap.up, player.accelerate);
-        
+
         if (keys.isPressed(keys.keyMap.space)) {
             if (spaceCount == 0) {
                 var bullet = player.fire();
@@ -63,30 +85,16 @@ function AsteroidsGame(two, boundaries, logger, keys) {
 
         if (spaceCount > bulletRate)
             spaceCount = 0;
+    };
 
-        player.update(enemies);
-
-        var readyForUpdate = updateRate > 0 && count > updateRate;
-        if (readyForUpdate || playerState.changed()) {
-            updatePlayer();
-            count = 0;
-        }
-        count++;
-        
+    var extraLoops = function () {
         //TODO: Remove
-        if (tmpCount > 50) {
+        if (tmpCount > 1) {
             asteroids.spawnAsteroid();
             tmpCount = 0;
         }
         tmpCount++;
-
-        updateEnemies();
-        asteroids.update();
-
-        // update the fps counter
-        fps.Count();
-        playerState.reset();
-    });
+    };
 
     var updateKeyState = function (key, pressedEvent) {
         playerState.updateKeyState(key, keys.isPressed(key));

@@ -1,6 +1,7 @@
 ﻿/// <reference path="asteroid.js" />
-function AsteroidCollection(two, boundaries, asteroids) {
-    asteroids = asteroids || [];
+/// <reference path="logger.js" />
+function AsteroidCollection(two, boundaries, logger) {
+    var asteroids = [];
 
     var update = function () {
         for (var i = 0; i < asteroids.length; i++) {
@@ -18,6 +19,8 @@ function AsteroidCollection(two, boundaries, asteroids) {
     var spawnAsteroid = function () {
         var position = { x: -random(300), y: -random(300) };
         newAsteroid(position);
+
+        logger.write("Spawned Asteroid: " + asteroids.length);
     };
 
     function random(max) {
