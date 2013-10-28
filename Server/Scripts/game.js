@@ -7,19 +7,21 @@
 function AsteroidsGame(two, boundaries, logger, keys) {
 
     // consts
-    var bulletRate = 10;
+    var bulletRate = 10,
+        targetFps = 1000 / 60;
 
     // properties 
     var player = null,
-	    enemies = {},
-	    server = null,
-	    count = 0,
-	    spaceCount = 0,
+        enemies = {},
+        server = null,
+        count = 0,
+        spaceCount = 0,
         playerState = new PlayerState(),
         userInfo = null,
         updateRate = 40,
         asteroids = new AsteroidCollection(two, boundaries, logger),
-        tmpCount = 0;
+        tmpCount = 0,
+        lastUpdate = null;
 
     for (var i = 0; i < 20; i++) {
         asteroids.newAsteroid();
@@ -34,10 +36,10 @@ function AsteroidsGame(two, boundaries, logger, keys) {
         player = player || createPlayer(signedInDetails.colour, userInfo.guid);
         player.eventHandlers.bulletDestroyed = bulletDestroyed;
 
-        setInterval(function () { two.update(); }, 1000 / 60);
-        setInterval(update, 1000 / 60);
-        setInterval(handleKeys, 1000 / 60);
-        setInterval(extraLoops, 1000 / 60);
+        setInterval(function () { two.update(); }, targetFps);
+        setInterval(update, targetFps);
+        setInterval(handleKeys, targetFps);
+        setInterval(extraLoops, targetFps);
     };
 
     /*
@@ -46,25 +48,37 @@ function AsteroidsGame(two, boundaries, logger, keys) {
     two.bind('update', function () {
         // update the fps counter
         fps.Count();
+        
     });
     
     var update = function () {
-        player.update(enemies);
+        //lastUpdate = lastUpdate || new Date();
+        //var difference = new Date() - lastUpdate;
+        //var frames = difference / targetFps;
+        //frames = frames > targetFps ? targetFps : frames;
 
-        // playerState alerts us when the currently pressed keys have changed
-        // this will initiate an emergency update (sends to server)
-        // It is updated in the handleKeys method
-        var readyForUpdate = updateRate > 0 && count > updateRate;
-        if (readyForUpdate || playerState.changed()) {
-            updatePlayer();
-            count = 0;
-        }
-        count++;
+        //for(var ii = 0; ii < frames; ii++)
+        //{
+            player.update(enemies);
 
-        updateEnemies();
-        asteroids.update();
+            // playerState alerts us when the currently pressed keys have changed
+            // this will initiate an emergency update (sends to server)
+            // It is updated in the handleKeys method
+            var readyForUpdate = updateRate > 0 && count > updateRate;
+            if (readyForUpdate || playerState.changed()) {
+                updatePlayer();
+                count = 0;
+            }
+            count++;
+
+            updateEnemies();
+            asteroids.update();
         
-        playerState.reset();
+            playerState.reset();
+            fps.Count();
+        //}
+
+        //lastUpdate = new Date();
     };
 
     var handleKeys = function () {

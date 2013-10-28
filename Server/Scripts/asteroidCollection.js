@@ -20,7 +20,7 @@ function AsteroidCollection(two, boundaries, logger) {
         var position = { x: -random(300), y: -random(300) };
         newAsteroid(position);
 
-        logger.write("Spawned Asteroid: " + asteroids.length);
+        //logger.write("Spawned Asteroid: " + asteroids.length);
     };
 
     function random(max) {
