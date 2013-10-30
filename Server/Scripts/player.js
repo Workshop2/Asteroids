@@ -1,10 +1,13 @@
 /// <reference path="spaceMovement.js" />
 /// <reference path="bullet.js" />
-function Player(two, ship, boundaries, logger, guid, colour) {
+/// <reference path="ship.js" />
+function Player(two, boundaries, logger, guid, colour) {
 
     /*
         Private Members
     */
+    var ship = new Ship(two, colour);
+
     var shootCount = 0,
         movement = new SpaceMovement({ x: ship.translation.x, y: ship.translation.y, rotation: ship.rotation }),
         bullets = [];
@@ -12,7 +15,6 @@ function Player(two, ship, boundaries, logger, guid, colour) {
     var eventHandlers = {
         bulletDestroyed: function () { }
     };
-
 
 
 

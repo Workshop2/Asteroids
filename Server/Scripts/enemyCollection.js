@@ -23,8 +23,7 @@ function EnemyCollection(two, boundaries, logger) {
     var newEnemy = function (enemyInfo) {
         logger.write(enemyInfo.displayName + " has joined the game");
 
-        var ship = new Ship(two, enemyInfo.colour);
-        var enemyPlayer = new Player(two, ship, boundaries, logger, enemyInfo.guid, enemyInfo.colour);
+        var enemyPlayer = new Player(two, boundaries, logger, enemyInfo.guid, enemyInfo.colour);
         var enemy = new Enemy(enemyInfo, enemyPlayer);
 
         enemies[enemyInfo.guid] = enemy;

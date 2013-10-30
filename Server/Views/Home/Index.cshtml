@@ -76,7 +76,7 @@
                 playerJoined: game.playerJoined,
                 playerDisconnected: game.playerDisconnected,
                 playerChange: game.playerChange,
-                signedIn: function (userDetails) { game.start(userDetails); }, // start the game
+                signedIn: game.start, 
                 enemyBullet: game.enemyBullet,
                 enemyBulletDestroyed: game.enemyBulletDestroyed
             };

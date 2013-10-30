@@ -31,7 +31,7 @@ function AsteroidsGame(two, boundaries, logger, keys) {
     var start = function (signedInDetails) {
         userInfo = signedInDetails;
 
-        player = player || createPlayer(signedInDetails.colour, userInfo.guid);
+        player = player || new Player(two, boundaries, logger, userInfo.guid, signedInDetails.colour);
         player.eventHandlers.bulletDestroyed = bulletDestroyed;
 
         setInterval(function () { two.update(); }, 1000 / 60);
@@ -103,13 +103,7 @@ function AsteroidsGame(two, boundaries, logger, keys) {
             pressedEvent();
         }
     };
-
-    // used for creating the player and enemy ships
-    var createPlayer = function (colour, guid) {
-        var ship = new Ship(two, colour);
-
-        return new Player(two, ship, boundaries, logger, guid, colour);
-    };
+    
 
     /*
         ----------- Connection stuff -----------
