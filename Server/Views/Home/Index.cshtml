@@ -107,5 +107,14 @@
     <p>
         Last build: @Model.LastBuild
     </p>
+    
+    @if (Model.DevMode)
+    {
+        <style type="text/css">
+            #draw-shapes, #info {
+                background-color: white !important;
+            }
+        </style>
+    }
 </body>
 </html>

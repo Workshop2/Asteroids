@@ -1,34 +1,35 @@
 ﻿/// <reference path="keys.js" />
-function Enemy(userInfo, ship) {
+/// <reference path="player.js" />
+function Enemy(userInfo, player) {
     var keys = [],
         keyMap = new Keys().keyMap;
 
     var destroy = function () {
-        ship.destroy();
+        player.destroy();
     };
 
     var updateFromDto = function (dto) {
         // store down the currently pressed keys for the update to used
         keys = dto.keys;
-        ship.updateFromDto(dto);
+        player.updateFromDto(dto);
     };
 
     var update = function () {
         // simulate the buttons being pressed
         // improves smoothness
         if (keyExists(keyMap.up)) {
-            ship.accelerate();
+            player.accelerate();
         }
         
         if (keyExists(keyMap.left)) {
-            ship.leftTurn();
+            player.leftTurn();
         }
         
         if (keyExists(keyMap.right)) {
-            ship.rightTurn();
+            player.rightTurn();
         }
 
-        ship.update();
+        player.update();
     };
 
     var keyExists = function(key) {
@@ -36,16 +37,16 @@ function Enemy(userInfo, ship) {
     };
 
     var shootBullet = function (bulletDto) {
-        ship.fireFromDto(bulletDto);
+        player.fireFromDto(bulletDto);
     };
 
     var destroyBullet = function (bulletDto) {
-        ship.destroyBulletDto(bulletDto);
+        player.destroyBulletDto(bulletDto);
     };
 
     return {
         guid: userInfo.guid,
-        ship: ship,
+        ship: player.ship,
         destroy: destroy,
         updateFromDto: updateFromDto,
         update: update,

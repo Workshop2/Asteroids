@@ -45,7 +45,7 @@ function Bullet(two, bulletDto, boundaries, logger, id) {
 
     // Has the bullet collided with an enemy
     var collisionDetected = function (enemy) {
-        var twoObject = enemy.ship.ship;
+        var twoObject = enemy.ship;
         var distance = shape.translation.distanceTo(twoObject.translation);
         var detected = distance < 10;
 

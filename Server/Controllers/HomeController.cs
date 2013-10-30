@@ -6,9 +6,9 @@ namespace Server.Controllers
 {
     public class HomeController : Controller
     {
-        private DateTime? _lastBuild;
+        private static DateTime? _lastBuild;
 
-        public ActionResult Index()
+        public ActionResult Index(bool devMode = false)
         {
             if (!_lastBuild.HasValue)
             {
@@ -17,7 +17,7 @@ namespace Server.Controllers
                 _lastBuild = fileInfo.LastWriteTime;
             }
 
-            AsteroidsViewModel model = new AsteroidsViewModel(_lastBuild.Value);
+            AsteroidsViewModel model = new AsteroidsViewModel(_lastBuild.Value, devMode);
 
             return View(model);
         }
