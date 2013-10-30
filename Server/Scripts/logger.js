@@ -22,8 +22,9 @@
         display.prepend(message + "<br />");
     };
 
-    var error = function (message) {
+    var error = function (message, b, c, d, errorDetails) {
         message = "<span style='color: red'>Error detected: " + message + "</span>";
+        message += "<br /><span style='color: red'>: " + errorDetails.stack + "</span>";
         console.log(message);
 
         if (!connected) {

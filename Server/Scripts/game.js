@@ -5,7 +5,8 @@
 /// <reference path="ship.js" />
 /// <reference path="asteroidCollection.js" />
 /// <reference path="enemyCollection.js" />
-function AsteroidsGame(two, boundaries, logger, keys) {
+/// <reference path="serverConnector.js" />
+function AsteroidsGame(two, boundaries, server, logger, keys) {
 
     // consts
     var bulletRate = 10;
@@ -13,7 +14,6 @@ function AsteroidsGame(two, boundaries, logger, keys) {
     // properties 
     var player = null,
 	    enemies = new EnemyCollection(two, boundaries, logger),
-	    server = null,
 	    count = 0,
 	    spaceCount = 0,
         playerState = new PlayerState(),
@@ -87,7 +87,7 @@ function AsteroidsGame(two, boundaries, logger, keys) {
             spaceCount = 0;
     };
 
-    var tmpCount = 0;
+    //var tmpCount = 0;
     var extraLoops = function () {
         //TODO: Remove
         //if (tmpCount > 100) {
@@ -108,10 +108,6 @@ function AsteroidsGame(two, boundaries, logger, keys) {
     /*
         ----------- Connection stuff -----------
     */
-    var setConnector = function (connector) {
-        server = connector;
-    };
-
     var playerJoined = function (playerInfo) {
         enemies.newEnemy(playerInfo);
 
@@ -166,13 +162,17 @@ function AsteroidsGame(two, boundaries, logger, keys) {
         enemies.destroyBullet(bulletDto);
     };
 
-    return {
-        start: start,
-        setConnector: setConnector,
+    // setup subscriber events
+    server.setSubscribers({
         playerJoined: playerJoined,
         playerDisconnected: enemies.removeEnemy,
         playerChange: enemies.updateEnemy,
+        signedIn: start, 
         enemyBullet: enemies.shootBullet,
         enemyBulletDestroyed: enemyBulletDestroyed
+    });
+
+    return {
+        // Nothing to return
     };
 };

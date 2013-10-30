@@ -67,25 +67,13 @@
             // resets the currently pressed keys when window focus is lost
             window.onpageshow = window.onpagehide = window.onfocus = window.onblur = keys.reset;
             window.onerror = logger.error;
-
-            // create game
-            var game = new AsteroidsGame(two, boundaries, logger, keys);
             
-            // events that listen for messages from the server
-            var eventHandlers = {
-                playerJoined: game.playerJoined,
-                playerDisconnected: game.playerDisconnected,
-                playerChange: game.playerChange,
-                signedIn: game.start, 
-                enemyBullet: game.enemyBullet,
-                enemyBulletDestroyed: game.enemyBulletDestroyed
-            };
-
             // setup connector wrapper
-            var server = new ServerConnector(connection, user, eventHandlers, logger);
-
-            game.setConnector(server);
-
+            var server = new ServerConnector(connection, user, logger);
+            
+            // create game
+            var game = new AsteroidsGame(two, boundaries, server, logger, keys);
+            
             // connect
             $.connection.hub.start().done(function () {
                 logger.write("Connected...");

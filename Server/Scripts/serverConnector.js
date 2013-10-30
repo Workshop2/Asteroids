@@ -1,6 +1,17 @@
-function ServerConnector(connection, userInfo, subscribers, logger) {
+function ServerConnector(connection, userInfo, logger) {
 
     var game = connection.gameHub;
+
+    var setSubscribers = function (subscribers) {
+        game.client.playerJoined = subscribers.playerJoined;
+        game.client.playerDisconnected = subscribers.playerDisconnected;
+        game.client.playerChange = subscribers.playerChange;
+        game.client.enemyBullet = subscribers.enemyBullet;
+        game.client.enemyBulletDestroyed = subscribers.enemyBulletDestroyed;
+        signedIn = subscribers.signedIn;
+    };
+
+    var signedIn = null;
 
     /*
             SEND
@@ -21,7 +32,7 @@ function ServerConnector(connection, userInfo, subscribers, logger) {
     var bulletDestroyed = function (bullet) {
         game.server.bulletDestroyed(bullet);
     };
-
+    
 
 
     /*
@@ -31,25 +42,19 @@ function ServerConnector(connection, userInfo, subscribers, logger) {
         logger.write("Signed in :)");
         logger.write("Connected via " + a.connectionType);
 
-        var signedIn = subscribers.signedIn;
         if (signedIn)
-            subscribers.signedIn(a);
+            signedIn(a);
     };
 
     game.client.tooManyConnections = function () {
         logger.write("Too many connections. Please try again later :)");
     };
-
-    game.client.playerJoined = subscribers.playerJoined;
-    game.client.playerDisconnected = subscribers.playerDisconnected;
-    game.client.playerChange = subscribers.playerChange;
-    game.client.enemyBullet = subscribers.enemyBullet;
-    game.client.enemyBulletDestroyed = subscribers.enemyBulletDestroyed;
-
+    
     return {
         updatePlayer: updatePlayer,
         signIn: signIn,
         sendBullet: sendBullet,
-        bulletDestroyed: bulletDestroyed
+        bulletDestroyed: bulletDestroyed,
+        setSubscribers: setSubscribers
     };
 }
