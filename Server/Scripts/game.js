@@ -125,10 +125,6 @@ function AsteroidsGame(two, boundaries, logger, keys) {
         updatePlayer();
     };
 
-    var playerDisconnected = function (playerDto) {
-        enemies.removeEnemy(playerDto);
-    };
-
     var updatePlayer = function () {
         if (player == null)
             return;
@@ -142,11 +138,7 @@ function AsteroidsGame(two, boundaries, logger, keys) {
         dto = $.extend(dto, { keys: playerState.pressedKeys });
         server.updatePlayer(dto);
     };
-
-    var playerChange = function (playerDto) {
-        enemies.updateEnemy(playerDto);
-    };
-
+    
     var sendBullet = function (bullet) {
         if (enemies.numberOfEnemies() < 1)
             return;
@@ -159,11 +151,7 @@ function AsteroidsGame(two, boundaries, logger, keys) {
 
         updatePlayer();
     };
-
-    var enemyBullet = function (bulletDto) {
-        enemies.shootBullet(bulletDto);
-    };
-
+    
     var bulletDestroyed = function (bullet) {
         if (enemies.numberOfEnemies() < 1)
             return;
@@ -188,9 +176,9 @@ function AsteroidsGame(two, boundaries, logger, keys) {
         start: start,
         setConnector: setConnector,
         playerJoined: playerJoined,
-        playerDisconnected: playerDisconnected,
-        playerChange: playerChange,
-        enemyBullet: enemyBullet,
+        playerDisconnected: enemies.removeEnemy,
+        playerChange: enemies.updateEnemy,
+        enemyBullet: enemies.shootBullet,
         enemyBulletDestroyed: enemyBulletDestroyed
     };
 };
