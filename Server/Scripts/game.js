@@ -4,6 +4,7 @@
 /// <reference path="playerState.js" />
 /// <reference path="ship.js" />
 /// <reference path="asteroidCollection.js" />
+/// <reference path="enemyCollection.js" />
 function AsteroidsGame(two, boundaries, logger, keys) {
 
     // consts
@@ -11,15 +12,14 @@ function AsteroidsGame(two, boundaries, logger, keys) {
 
     // properties 
     var player = null,
-	    enemies = {},
+	    enemies = new EnemyCollection(two, boundaries, logger),
 	    server = null,
 	    count = 0,
 	    spaceCount = 0,
         playerState = new PlayerState(),
         userInfo = null,
         updateRate = 40,
-        asteroids = new AsteroidCollection(two, boundaries, logger),
-        tmpCount = 0;
+        asteroids = new AsteroidCollection(two, boundaries, logger);
 
     for (var i = 0; i < 20; i++) {
         asteroids.newAsteroid();
@@ -49,7 +49,7 @@ function AsteroidsGame(two, boundaries, logger, keys) {
     });
     
     var update = function () {
-        player.update(enemies);
+        player.update(enemies._enemies);
 
         // playerState alerts us when the currently pressed keys have changed
         // this will initiate an emergency update (sends to server)
@@ -61,7 +61,7 @@ function AsteroidsGame(two, boundaries, logger, keys) {
         }
         count++;
 
-        updateEnemies();
+        enemies.update();
         asteroids.update();
         
         playerState.reset();
@@ -87,13 +87,14 @@ function AsteroidsGame(two, boundaries, logger, keys) {
             spaceCount = 0;
     };
 
+    var tmpCount = 0;
     var extraLoops = function () {
         //TODO: Remove
-        if (tmpCount > 100) {
-            asteroids.spawnAsteroid();
-            tmpCount = 0;
-        }
-        tmpCount++;
+        //if (tmpCount > 100) {
+        //    asteroids.spawnAsteroid();
+        //    tmpCount = 0;
+        //}
+        //tmpCount++;
     };
 
     var updateKeyState = function (key, pressedEvent) {
@@ -110,12 +111,6 @@ function AsteroidsGame(two, boundaries, logger, keys) {
         return new Player(two, ship, boundaries, logger, guid, colour);
     };
 
-    var updateEnemies = function () {
-        for (var enemy in enemies) {
-            enemies[enemy].update();
-        }
-    };
-
     /*
         ----------- Connection stuff -----------
     */
@@ -124,33 +119,20 @@ function AsteroidsGame(two, boundaries, logger, keys) {
     };
 
     var playerJoined = function (playerInfo) {
-        logger.write(playerInfo.displayName + " has joined the game");
-
-        var enemyPlayer = createPlayer(playerInfo.colour, playerInfo.guid);
-        var enemy = new Enemy(playerInfo, enemyPlayer);
-
-        enemies[playerInfo.guid] = enemy;
+        enemies.newEnemy(playerInfo);
 
         // send our current position
         updatePlayer();
     };
 
     var playerDisconnected = function (playerDto) {
-        logger.write(playerDto.displayName + " has left the game");
-
-        var enemy = enemies[playerDto.guid];
-        if (!enemy)
-            return;
-
-        enemy.destroy();
-
-        delete enemies[playerDto.guid];
+        enemies.removeEnemy(playerDto);
     };
 
     var updatePlayer = function () {
         if (player == null)
             return;
-        if (numberOfEnemies() < 1)
+        if (enemies.numberOfEnemies() < 1)
             return;
 
         var dto = player.generateDto();
@@ -162,15 +144,11 @@ function AsteroidsGame(two, boundaries, logger, keys) {
     };
 
     var playerChange = function (playerDto) {
-        var enemy = enemies[playerDto.guid];
-        if (!enemy)
-            return;
-
-        enemy.updateFromDto(playerDto);
+        enemies.updateEnemy(playerDto);
     };
 
     var sendBullet = function (bullet) {
-        if (numberOfEnemies() < 1)
+        if (enemies.numberOfEnemies() < 1)
             return;
 
         var dto = bullet.generateDto();
@@ -183,15 +161,11 @@ function AsteroidsGame(two, boundaries, logger, keys) {
     };
 
     var enemyBullet = function (bulletDto) {
-        var enemy = enemies[bulletDto.pid];
-        if (!enemy)
-            return;
-
-        enemy.shootBullet(bulletDto);
+        enemies.shootBullet(bulletDto);
     };
 
     var bulletDestroyed = function (bullet) {
-        if (numberOfEnemies() < 1)
+        if (enemies.numberOfEnemies() < 1)
             return;
 
         var dto = bullet.generateDto();
@@ -206,16 +180,8 @@ function AsteroidsGame(two, boundaries, logger, keys) {
         if (bulletVictim == userInfo.guid) {
             logger.write("YOU GOT HIT");
         }
-
-        var enemy = enemies[bulletDto.pid];
-        if (!enemy)
-            return;
-
-        enemy.destroyBullet(bulletDto);
-    };
-
-    var numberOfEnemies = function () {
-        return Object.keys(enemies).length;
+        
+        enemies.destroyBullet(bulletDto);
     };
 
     return {

@@ -125,6 +125,7 @@
     <Content Include="Scripts\asteroidCollection.js" />
     <Content Include="Scripts\bullet.js" />
     <Content Include="Scripts\asteroid.js" />
+    <Content Include="Scripts\enemyCollection.js" />
     <Content Include="Scripts\spaceMovement.js" />
     <Content Include="Scripts\ship.js" />
     <Content Include="Scripts\enemy.js" />
