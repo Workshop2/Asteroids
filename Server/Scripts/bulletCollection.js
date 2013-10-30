@@ -89,6 +89,7 @@ function BulletCollection(two, boundaries, logger, colour) {
         }
 
         bullets = [];
+        shootCount = 0;
     };
 
     return {
