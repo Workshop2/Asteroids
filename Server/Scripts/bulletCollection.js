@@ -7,6 +7,7 @@ function BulletCollection(two, boundaries, logger, colour) {
     var update = function (enemies) {
         var removedItems = [];
 
+        //TODO: Tidy up
         for (var i = 0; i < bullets.length; i++) {
             var bullet = bullets[i];
             var shouldDestroy = false;
@@ -84,9 +85,10 @@ function BulletCollection(two, boundaries, logger, colour) {
         for (var i = 0; i < bullets.length; i++) {
             var bullet = bullets[i];
 
-            // we dont care about splicing the list, just kill all bullets
             bullet.destroy();
         }
+
+        bullets = [];
     };
 
     return {

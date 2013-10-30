@@ -66,9 +66,7 @@ function Player(two, boundaries, logger, guid, colour) {
     };
 
     var fire = function () {
-        var bullet2 = bullets.newBullet(movement.generateDto());
-
-        return bullet2;
+        return bullets.newBullet(movement.generateDto());
     };
     
     
