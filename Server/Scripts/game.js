@@ -14,12 +14,12 @@ function AsteroidsGame(two, boundaries, server, logger, keys) {
     // properties 
     var player = null,
 	    enemies = new EnemyCollection(two, boundaries, logger),
+        asteroids = new AsteroidCollection(two, boundaries, logger),
 	    count = 0,
 	    spaceCount = 0,
         playerState = new PlayerState(),
         userInfo = null,
-        updateRate = 40,
-        asteroids = new AsteroidCollection(two, boundaries, logger);
+        updateRate = 40;
 
     for (var i = 0; i < 20; i++) {
         asteroids.newAsteroid();
@@ -31,7 +31,7 @@ function AsteroidsGame(two, boundaries, server, logger, keys) {
     var start = function (signedInDetails) {
         userInfo = signedInDetails;
 
-        player = player || new Player(two, boundaries, logger, userInfo.guid, signedInDetails.colour);
+        player = new Player(two, boundaries, logger, userInfo.guid, signedInDetails.colour);
         player.eventHandlers.bulletDestroyed = bulletDestroyed;
 
         setInterval(function () { two.update(); }, 1000 / 60);

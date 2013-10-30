@@ -1,6 +1,7 @@
 /// <reference path="spaceMovement.js" />
 /// <reference path="bullet.js" />
 /// <reference path="ship.js" />
+/// <reference path="bulletCollection.js" />
 function Player(two, boundaries, logger, guid, colour) {
 
     /*
@@ -8,9 +9,8 @@ function Player(two, boundaries, logger, guid, colour) {
     */
     var ship = new Ship(two, colour);
 
-    var shootCount = 0,
-        movement = new SpaceMovement({ x: ship.translation.x, y: ship.translation.y, rotation: ship.rotation }),
-        bullets = [];
+    var movement = new SpaceMovement({ x: ship.translation.x, y: ship.translation.y, rotation: ship.rotation }),
+        bullets = new BulletCollection(two, boundaries, logger, colour);
 
     var eventHandlers = {
         bulletDestroyed: function () { }
@@ -30,29 +30,6 @@ function Player(two, boundaries, logger, guid, colour) {
 
         wrapShip();
         updateBullets(enemies);
-    };
-
-    var leftTurn = function () {
-        movement.rotateLeft();
-    };
-
-    var rightTurn = function () {
-        movement.rotateRight();
-    };
-
-    var accelerate = function () {
-        movement.accelerate();
-    };
-
-    var fire = function () {
-        shootCount++;
-
-        var bulletDto = $.extend(movement.generateDto(), { colour: colour });
-
-        var bullet = new Bullet(two, bulletDto, boundaries, logger, shootCount);
-        bullets.push(bullet);
-
-        return bullet;
     };
 
     // If the ship leaves the boundaries of the games, wrap it
@@ -80,97 +57,27 @@ function Player(two, boundaries, logger, guid, colour) {
         Bullets
     */
 
-    var fireFromDto = function (bulletDto) {
-        shootCount++;
-        
-        bulletDto = $.extend(bulletDto, { colour: colour });
-
-        var bullet = new Bullet(two, bulletDto, boundaries, logger, bulletDto.id);
-        bullets.push(bullet);
-
-        return bullet;
-    };
-
     var updateBullets = function (enemies) {
-        var removedItems = [];
-
-        for (var i = 0; i < bullets.length; i++) {
-            var bullet = bullets[i];
-            var shouldDestroy = false;
-
-            bullet.update();
-
-            if (bullet.outOfBounds()) {
-                shouldDestroy = true;
-            }
-
-            for (var enemyGuid in enemies) {
-                if (bullet.collisionDetected(enemies[enemyGuid])) {
-                    shouldDestroy = true;
-                    bullet.setVictim(enemyGuid);
-                }
-            }
-
-            if (shouldDestroy) {
-                removedItems.push(bullet);
-            }
-        }
-
-        for (var j = 0; j < removedItems.length; j++) {
-            var oldBullet = removedItems[j];
-            eventHandlers.bulletDestroyed(oldBullet);
-
-            destroyBullet(oldBullet);
+        var removedBullets = bullets.update(enemies);
+        
+        for (var i = 0; i < removedBullets.length; i++) {
+            eventHandlers.bulletDestroyed(removedBullets[i]);
         }
     };
 
-    var destroyBullet = function (bullet) {
-        var index = bullets.indexOf(bullet);
-        bullet.destroy();
+    var fire = function () {
+        var bullet2 = bullets.newBullet(movement.generateDto());
 
-        if (index >= 0) {
-            bullets.splice(index, 1);
-        }
+        return bullet2;
     };
-
-    var destroyBulletDto = function (bulletDto) {
-        for (var i = 0; i < bullets.length; i++) {
-            var bullet = bullets[i];
-
-            if (bullet.id == bulletDto.id) {
-                destroyBullet(bullet);
-                break;
-            }
-        }
-    };
-
-
-
-    /*
-        Network Stuff
-    */
-
-    var generateDto = function () {
-        return movement.generateDto();
-    };
-
-    var updateFromDto = function (dto) {
-        movement.updateFromDto(dto);
-    };
-
-
-
+    
+    
     /*
         Destructor
     */
 
     var destroy = function () {
-        for (var i = 0; i < bullets.length; i++) {
-            var bullet = bullets[i];
-
-            // we dont care about splicing the list, just kill all bullets
-            bullet.destroy();
-        }
+        bullets.clear();
 
         // remove ship element
         two.remove(ship);
@@ -178,16 +85,16 @@ function Player(two, boundaries, logger, guid, colour) {
 
     return {
         ship: ship,
-        leftTurn: leftTurn,
-        rightTurn: rightTurn,
-        accelerate: accelerate,
+        leftTurn: movement.rotateLeft,
+        rightTurn: movement.rotateRight,
+        accelerate: movement.accelerate,
         update: update,
-        generateDto: generateDto,
+        generateDto: movement.generateDto,
         fire: fire,
-        updateFromDto: updateFromDto,
-        fireFromDto: fireFromDto,
+        updateFromDto: movement.updateFromDto,
+        fireFromDto: bullets.newBulletFromDto,
         eventHandlers: eventHandlers,
-        destroyBulletDto: destroyBulletDto,
+        destroyBulletDto: bullets.destroyBulletDto,
         destroy: destroy
     };
 };
