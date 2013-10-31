@@ -9,18 +9,21 @@
 function AsteroidsGame(two, boundaries, server, logger, keys) {
 
     // consts
-    var bulletRate = 10;
+    var bulletRate = 10,
+        updateRate = 40;
 
     // properties 
     var player = null,
-	    enemies = new EnemyCollection(two, boundaries, logger),
-        asteroids = new AsteroidCollection(two, boundaries, logger),
-	    count = 0,
-	    spaceCount = 0,
-        playerState = new PlayerState(),
         userInfo = null,
-        updateRate = 40;
+	    count = 0,
+	    spaceCount = 0;
 
+    // dependencies
+    var enemies = new EnemyCollection(two, boundaries, logger),
+        asteroids = new AsteroidCollection(two, boundaries, logger),
+        playerState = new PlayerState();
+
+    //TODO: Remove
     for (var i = 0; i < 20; i++) {
         asteroids.newAsteroid();
     }
