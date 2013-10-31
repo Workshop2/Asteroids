@@ -1,6 +1,7 @@
 function ServerConnector(connection, userInfo, logger) {
 
-    var game = connection.gameHub;
+    var game = connection.gameHub,
+        signedIn = null;
 
     var setSubscribers = function (subscribers) {
         game.client.playerJoined = subscribers.playerJoined;
@@ -11,7 +12,6 @@ function ServerConnector(connection, userInfo, logger) {
         signedIn = subscribers.signedIn;
     };
 
-    var signedIn = null;
 
     /*
             SEND
@@ -51,10 +51,10 @@ function ServerConnector(connection, userInfo, logger) {
     };
     
     return {
-        updatePlayer: updatePlayer,
         signIn: signIn,
+        setSubscribers: setSubscribers,
+        updatePlayer: updatePlayer,
         sendBullet: sendBullet,
-        bulletDestroyed: bulletDestroyed,
-        setSubscribers: setSubscribers
+        bulletDestroyed: bulletDestroyed
     };
 }

@@ -29,7 +29,7 @@
 </head>
 <body>
     <div id="logo"></div>
-    <div id="draw-shapes" style="background: black"></div>
+    <div id="draw-shapes"></div>
     <div id="info"></div>
     <script type="text/javascript">
         var elem = document.getElementById('draw-shapes');
@@ -52,34 +52,33 @@
 
         var two = new Two(twoParams).appendTo(elem);
         var logger = new Logger(info);
-
+        
         $(function () {
 
             // setup connection
-            var connection = $.connection;
-            logger.write("Connecting...");
-
-            // generate the user
-            var user = new UserInfo();
+            var connection = $.connection,
+                keys = new Keys(),
+                user = new UserInfo(); // generates the user
+            
             logger.write("<b>Username is " + user.displayName + "<b/>");
-
-            var keys = new Keys();
             
             // resets the currently pressed keys when window focus is lost
             window.onpageshow = window.onpagehide = window.onfocus = window.onblur = keys.reset;
             window.onerror = logger.error;
-            
+
             // setup connector wrapper
             var server = new ServerConnector(connection, user, logger);
             
             // create game
             var game = new AsteroidsGame(two, boundaries, server, logger, keys);
+
+            logger.write("Connecting...");
             
             // connect
             $.connection.hub.start().done(function () {
                 logger.write("Connected...");
 
-                server.signIn();
+                game.signIn();
                 logger.connect($.connection);
 
             });

@@ -28,6 +28,10 @@ function AsteroidsGame(two, boundaries, server, logger, keys) {
     /*
         ----------- Start the game -----------
     */
+    var signIn = function () {
+        server.signIn();
+    };
+    
     var start = function (signedInDetails) {
         userInfo = signedInDetails;
 
@@ -173,6 +177,6 @@ function AsteroidsGame(two, boundaries, server, logger, keys) {
     });
 
     return {
-        // Nothing to return
+        signIn: signIn
     };
 };
