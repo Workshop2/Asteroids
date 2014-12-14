@@ -13,7 +13,7 @@ A HTML 5 & WebSockets online multiplayer asteroids game built with:
 Cross platform and lots of fun.
 
 
-Working example: http://asteroids.cloudapp.net/
+Working example: http://asteroids.azurewebsites.net/
 
 
 ENJOY :-)
