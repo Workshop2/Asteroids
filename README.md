@@ -19,6 +19,3 @@ Working example: http://asteroids.azurewebsites.net/
 ENJOY :-)
 ========
 
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/Workshop2/asteroids/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-===
